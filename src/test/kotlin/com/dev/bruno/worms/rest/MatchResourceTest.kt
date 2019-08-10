@@ -5,6 +5,7 @@ import com.dev.bruno.worms.domain.GameMode
 import com.dev.bruno.worms.domain.GamePlay
 import com.dev.bruno.worms.domain.PlayerMode
 import com.dev.bruno.worms.dto.NewMatch
+import com.dev.bruno.worms.dto.NewMatchPlayer
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import org.hamcrest.CoreMatchers.notNullValue
@@ -38,7 +39,7 @@ open class MatchResourceTest {
     }
 
     @Test
-    fun given_player_id_when_post_then_return_match_info() {
+    fun given_new_match_player_and_match_id_when_post_then_return_match_info() {
         val newMatch = NewMatch(
                 GameMode.CLASSIC,
                 GamePlay.ARROWS,
@@ -48,11 +49,14 @@ open class MatchResourceTest {
                 30
         )
 
-        val playerId = "player_id_test"
+        val newMatchPlayer = NewMatchPlayer(
+                "player_id_test"
+        )
+
         val matchId = "match_id_test"
 
         given()
-                .`when`().post("/v1/match/{matchId}/players/{playerId}", matchId, playerId, newMatch)
+                .`when`().put("/v1/match/{matchId}/players", matchId, newMatchPlayer)
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
