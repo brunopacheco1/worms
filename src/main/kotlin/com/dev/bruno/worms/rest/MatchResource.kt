@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.rest
 
-import com.dev.bruno.worms.domain.Match
+import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody
 import javax.ws.rs.*
@@ -12,27 +12,27 @@ class MatchResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun createMatch(@RequestBody newMatch: NewMatch): Match {
+    fun createMatch(@RequestBody newMatch: NewMatch): MatchInfo {
         throw RuntimeException("Not implemented")
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{matchId}/players/{playerId}")
-    fun addPlayer(@PathParam("matchId") matchId: String, @PathParam("playerId") playerId: String): Match {
+    fun addPlayer(@PathParam("matchId") matchId: String, @PathParam("playerId") playerId: String): MatchInfo {
         throw RuntimeException("Not implemented")
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun retrieveMatches(): Set<Match> {
+    fun retrieveMatches(): Set<MatchInfo> {
         throw RuntimeException("Not implemented")
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    fun retrieveMatch(@PathParam("id") id: String): Match {
+    fun retrieveMatch(@PathParam("id") id: String): MatchInfo {
         throw RuntimeException("Not implemented")
     }
 }

@@ -8,6 +8,7 @@ data class Match(
         val difficulty: Difficulty,
         val playerMode: PlayerMode,
         val numberOfPlayers: Int,
+        val mapSize: Int,
         val players: Set<PlayerMatch>,
         val roundsCounter: Int,
         val rounds: Set<Round>

@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.dto
 
-enum class MapPlayerStatus {
+enum class MatchMapPlayerStatus {
     PLAYING,
     DEAD
 }
