@@ -1,7 +1,6 @@
 package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.domain.Match
-import com.dev.bruno.worms.domain.Player
 import com.dev.bruno.worms.dto.NewMatch
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody
 import javax.ws.rs.*
@@ -13,7 +12,7 @@ class MatchResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    fun createPlayer(@RequestBody newMatch: NewMatch): Match {
+    fun createMatch(@RequestBody newMatch: NewMatch): Match {
         throw RuntimeException("Not implemented")
     }
 

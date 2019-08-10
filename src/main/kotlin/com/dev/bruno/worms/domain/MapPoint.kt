@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.domain
 
-data class Position(
+data class MapPoint(
         val x: Int,
         val y: Int
 )
