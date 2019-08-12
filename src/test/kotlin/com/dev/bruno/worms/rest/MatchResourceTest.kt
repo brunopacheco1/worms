@@ -10,6 +10,7 @@ import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.Test
 
@@ -27,17 +28,17 @@ open class MatchResourceTest {
                 30
         )
 
-        given()
-                .`when`().post("/v1/match", newMatch)
+        given().contentType(ContentType.JSON).body(newMatch.toJson())
+                .`when`().post("/v1/match")
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
-                        "gameMode", newMatch.gameMode,
-                        "gamePlay", newMatch.gamePlay,
-                        "difficulty", newMatch.difficulty,
-                        "playerMode", newMatch.playerMode,
-                        "numberOfPlayers", newMatch.numberOfPlayers,
-                        "mapSize", newMatch.mapSize)
+                        "gameMode", `is`(newMatch.gameMode),
+                        "gamePlay", `is`(newMatch.gamePlay),
+                        "difficulty", `is`(newMatch.difficulty),
+                        "playerMode", `is`(newMatch.playerMode),
+                        "numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "mapSize", `is`(newMatch.mapSize))
     }
 
     @Test
@@ -62,12 +63,12 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
-                        "gameMode", newMatch.gameMode,
-                        "gamePlay", newMatch.gamePlay,
-                        "difficulty", newMatch.difficulty,
-                        "playerMode", newMatch.playerMode,
-                        "numberOfPlayers", newMatch.numberOfPlayers,
-                        "mapSize", newMatch.mapSize)
+                        "gameMode", `is`(newMatch.gameMode),
+                        "gamePlay", `is`(newMatch.gamePlay),
+                        "difficulty", `is`(newMatch.difficulty),
+                        "playerMode", `is`(newMatch.playerMode),
+                        "numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "mapSize", `is`(newMatch.mapSize))
     }
 
     @Test
@@ -86,12 +87,12 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(200)
                 .body("[0].id", notNullValue(),
-                        "[0].gameMode", newMatch.gameMode,
-                        "[0].gamePlay", newMatch.gamePlay,
-                        "[0].difficulty", newMatch.difficulty,
-                        "[0].playerMode", newMatch.playerMode,
-                        "[0].numberOfPlayers", newMatch.numberOfPlayers,
-                        "[0].mapSize", newMatch.mapSize)
+                        "[0].gameMode", `is`(newMatch.gameMode),
+                        "[0].gamePlay", `is`(newMatch.gamePlay),
+                        "[0].difficulty", `is`(newMatch.difficulty),
+                        "[0].playerMode", `is`(newMatch.playerMode),
+                        "[0].numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "[0].mapSize", `is`(newMatch.mapSize))
     }
 
     @Test
@@ -112,11 +113,11 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
-                        "gameMode", newMatch.gameMode,
-                        "gamePlay", newMatch.gamePlay,
-                        "difficulty", newMatch.difficulty,
-                        "playerMode", newMatch.playerMode,
-                        "numberOfPlayers", newMatch.numberOfPlayers,
-                        "mapSize", newMatch.mapSize)
+                        "gameMode", `is`(newMatch.gameMode),
+                        "gamePlay", `is`(newMatch.gamePlay),
+                        "difficulty", `is`(newMatch.difficulty),
+                        "playerMode", `is`(newMatch.playerMode),
+                        "numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "mapSize", `is`(newMatch.mapSize))
     }
 }

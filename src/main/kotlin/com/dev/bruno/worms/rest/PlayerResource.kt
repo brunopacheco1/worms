@@ -16,7 +16,7 @@ class PlayerResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayer(newPlayer: NewPlayer) = playerService.addPlayer(newPlayer)
+    fun addPlayer(newPlayer: NewPlayer) = playerService.add(newPlayer)
 
     @GET
     @Path("/{id}")

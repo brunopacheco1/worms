@@ -1,7 +1,15 @@
 package com.dev.bruno.worms.domain
 
+import javax.persistence.*
+
+@Entity
 data class Round(
-        val id: Int,
+        @Id
+        @GeneratedValue
+        val id: Long,
         val status: RoundStatus,
-        val players: Set<PlayerRound>
+        @ManyToOne
+        val match: Match,
+        @OneToMany(mappedBy = "round")
+        val players: Set<PlayerRound> = hashSetOf()
 )

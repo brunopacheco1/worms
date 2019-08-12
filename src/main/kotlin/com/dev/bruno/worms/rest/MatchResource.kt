@@ -3,7 +3,8 @@ package com.dev.bruno.worms.rest
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody
+import com.dev.bruno.worms.services.MatchService
+import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
@@ -11,17 +12,18 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 class MatchResource {
 
+    @Inject
+    lateinit var matchService: MatchService
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createMatch(@RequestBody newMatch: NewMatch): MatchInfo {
-        throw RuntimeException("Not implemented")
-    }
+    fun addMatch(newMatch: NewMatch) = matchService.add(newMatch)
 
     @PUT
     @Path("/{matchId}/players")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayer(@PathParam("matchId") matchId: String,
-                  @RequestBody newMatchPlayer: NewMatchPlayer): MatchInfo {
+    fun addPlayerIntoMatch(@PathParam("matchId") matchId: String,
+                           newMatchPlayer: NewMatchPlayer): MatchInfo {
         throw RuntimeException("Not implemented")
     }
 

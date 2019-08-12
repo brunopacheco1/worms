@@ -11,7 +11,7 @@ import javax.inject.Inject
 class PlayerService {
 
     @Inject
-    private lateinit var playerRepository: PlayerRepository
+    lateinit var playerRepository: PlayerRepository
 
-    fun addPlayer(newPlayer: NewPlayer) = playerRepository.save(newPlayer.asPlayer()).asPlayerInfo()
+    fun add(newPlayer: NewPlayer) = playerRepository.save(newPlayer.asPlayer()).asPlayerInfo()
 }
