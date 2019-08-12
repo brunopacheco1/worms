@@ -1,5 +1,11 @@
 package com.dev.bruno.worms.dto
 
-data class NewMatchPlayer(
-        val playerId: String
-)
+class NewMatchPlayer {
+    lateinit var playerId: String
+
+    constructor(playerId: String) {
+        this.playerId = playerId
+    }
+
+    constructor()
+}

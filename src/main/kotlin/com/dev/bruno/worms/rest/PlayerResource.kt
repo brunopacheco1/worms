@@ -12,8 +12,11 @@ class PlayerResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createPlayer(@RequestBody newPlayer: NewPlayer): PlayerInfo {
-        throw RuntimeException("Not implemented")
+    fun createPlayer(newPlayer: NewPlayer): PlayerInfo {
+        return PlayerInfo(
+                "test_id",
+                newPlayer.nickname
+        )
     }
 
     @GET

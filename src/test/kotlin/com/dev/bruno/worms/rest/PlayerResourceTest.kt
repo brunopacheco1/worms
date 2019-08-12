@@ -1,8 +1,10 @@
 package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.dto.NewPlayer
+import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.Test
@@ -14,8 +16,8 @@ open class PlayerResourceTest {
     fun given_nickname_when_post_then_return_player_info() {
         val newPlayer = NewPlayer("nickname_test")
 
-        given()
-                .`when`().post("/v1/player/", newPlayer)
+        given().contentType(ContentType.JSON).body(newPlayer.toJson())
+                .`when`().post("/v1/player/")
                 .then()
                 .statusCode(200)
                 .body("nickname", `is`(newPlayer.nickname),

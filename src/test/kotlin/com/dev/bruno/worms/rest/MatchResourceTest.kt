@@ -6,8 +6,10 @@ import com.dev.bruno.worms.domain.GamePlay
 import com.dev.bruno.worms.domain.PlayerMode
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.Test
 
@@ -55,8 +57,8 @@ open class MatchResourceTest {
 
         val matchId = "match_id_test"
 
-        given()
-                .`when`().put("/v1/match/{matchId}/players", matchId, newMatchPlayer)
+        given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
+                .`when`().put("/v1/match/{matchId}/players", matchId)
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
