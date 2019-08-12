@@ -2,7 +2,8 @@ package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.dto.NewPlayer
 import com.dev.bruno.worms.dto.PlayerInfo
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody
+import com.dev.bruno.worms.services.PlayerService
+import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
@@ -10,14 +11,12 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 class PlayerResource {
 
+    @Inject
+    lateinit var playerService: PlayerService
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun createPlayer(newPlayer: NewPlayer): PlayerInfo {
-        return PlayerInfo(
-                "test_id",
-                newPlayer.nickname
-        )
-    }
+    fun addPlayer(newPlayer: NewPlayer) = playerService.addPlayer(newPlayer)
 
     @GET
     @Path("/{id}")

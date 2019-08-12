@@ -1,7 +1,8 @@
 package com.dev.bruno.worms.domain
 
 data class Player(
-        val id: String,
         val nickname: String,
-        val matches: Set<PlayerMatch>
-)
+        val matches: Set<PlayerMatch> = hashSetOf()
+) {
+    lateinit var id: String
+}
