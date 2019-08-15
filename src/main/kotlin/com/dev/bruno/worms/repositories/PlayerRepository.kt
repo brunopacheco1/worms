@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 class PlayerRepository {
 
     @Inject
-    lateinit var em: EntityManager
+    private lateinit var em: EntityManager
 
     @Transactional
     fun save(player: Player): Player {
@@ -20,4 +20,6 @@ class PlayerRepository {
         em.persist(player)
         return player
     }
+
+    fun get(id: String) = em.find(Player::class.java, id)
 }

@@ -5,7 +5,7 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 @Entity
-data class Player(val nickname: String) {
+class Player(val nickname: String) {
 
     @Id
     lateinit var id: String

@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 class MatchRepository {
 
     @Inject
-    lateinit var em: EntityManager
+    private lateinit var em: EntityManager
 
     @Transactional
     fun save(match: Match): Match {
@@ -20,4 +20,11 @@ class MatchRepository {
         em.persist(match)
         return match
     }
+
+    @Transactional
+    fun update(match: Match): Match {
+        return em.merge(match)
+    }
+
+    fun get(id: String) = em.find(Match::class.java, id)
 }

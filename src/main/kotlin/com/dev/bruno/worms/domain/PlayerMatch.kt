@@ -3,16 +3,17 @@ package com.dev.bruno.worms.domain
 import javax.persistence.*
 
 @Entity
-data class PlayerMatch(
-        @Id
-        @GeneratedValue
-        val id: Long,
-        val wormLength: Int,
-        val status: PlayerStatus,
+class PlayerMatch(
         @ManyToOne
         val player: Player,
         @ManyToOne
-        val match: Match,
-        @OneToMany(mappedBy = "player")
-        val rounds: Set<PlayerRound> = hashSetOf()
-)
+        val match: Match) {
+
+    @Id
+    @GeneratedValue
+    var id: Long = 0
+    var wormLength: Int = 1
+    var status: PlayerStatus = PlayerStatus.PLAYING
+    @OneToMany(mappedBy = "player")
+    val rounds: Set<PlayerRound> = hashSetOf()
+}

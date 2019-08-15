@@ -24,7 +24,7 @@ class MatchResource {
     @Consumes(MediaType.APPLICATION_JSON)
     fun addPlayerIntoMatch(@PathParam("matchId") matchId: String,
                            newMatchPlayer: NewMatchPlayer): MatchInfo {
-        throw RuntimeException("Not implemented")
+        return matchService.addPlayerIntoMatch(matchId, newMatchPlayer)
     }
 
     @GET

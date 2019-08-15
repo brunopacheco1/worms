@@ -3,7 +3,7 @@ package com.dev.bruno.worms.domain
 import javax.persistence.*
 
 @Entity
-data class Round(
+class Round(
         @Id
         @GeneratedValue
         val id: Long,
