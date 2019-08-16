@@ -22,10 +22,14 @@ class MatchService {
 
     fun add(newMatch: NewMatch) = matchRepository.save(newMatch.asMatch()).asMatchInfo()
 
-    fun addPlayerIntoMatch(matchId: String, newMatchPlayer: NewMatchPlayer): MatchInfo {
+    fun addPlayerIntoMatch(matchId: Long, newMatchPlayer: NewMatchPlayer): MatchInfo {
         val match = matchRepository.get(matchId)
-        val player = playerRepository.get(newMatchPlayer.playerId);
+        val player = playerRepository.get(newMatchPlayer.playerId)
         match.players.add(PlayerMatch(player, match))
         return matchRepository.update(match).asMatchInfo()
     }
+
+    fun getMatch(id: Long) = matchRepository.get(id).asMatchInfo()
+
+    fun listMatches() = matchRepository.list().map { it.asMatchInfo() }
 }

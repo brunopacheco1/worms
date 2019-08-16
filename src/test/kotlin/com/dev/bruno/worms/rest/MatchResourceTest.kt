@@ -32,7 +32,7 @@ open class MatchResourceTest {
                 .`when`().post("/v1/match")
                 .then()
                 .statusCode(200)
-                .body("id", notNullValue(),
+                .body("id", `is`(4),
                         "gameMode", `is`(newMatch.gameMode),
                         "gamePlay", `is`(newMatch.gamePlay),
                         "difficulty", `is`(newMatch.difficulty),
@@ -52,14 +52,10 @@ open class MatchResourceTest {
                 30
         )
 
-        val newMatchPlayer = NewMatchPlayer(
-                "player_id_test"
-        )
-
-        val matchId = "match_id_test"
+        val newMatchPlayer = NewMatchPlayer(1)
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().put("/v1/match/{matchId}/players", matchId)
+                .`when`().put("/v1/match/{matchId}/players", 4)
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue(),
@@ -86,13 +82,13 @@ open class MatchResourceTest {
                 .`when`().get("/v1/match")
                 .then()
                 .statusCode(200)
-                .body("[0].id", notNullValue(),
-                        "[0].gameMode", `is`(newMatch.gameMode),
-                        "[0].gamePlay", `is`(newMatch.gamePlay),
-                        "[0].difficulty", `is`(newMatch.difficulty),
-                        "[0].playerMode", `is`(newMatch.playerMode),
-                        "[0].numberOfPlayers", `is`(newMatch.numberOfPlayers),
-                        "[0].mapSize", `is`(newMatch.mapSize))
+                .body("[1].id", notNullValue(),
+                        "[1].gameMode", `is`(newMatch.gameMode),
+                        "[1].gamePlay", `is`(newMatch.gamePlay),
+                        "[1].difficulty", `is`(newMatch.difficulty),
+                        "[1].playerMode", `is`(newMatch.playerMode),
+                        "[1].numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "[1].mapSize", `is`(newMatch.mapSize))
     }
 
     @Test
@@ -106,13 +102,11 @@ open class MatchResourceTest {
                 30
         )
 
-        val matchId = "match_id_test"
-
         given()
-                .`when`().get("/v1/match/{id}", matchId)
+                .`when`().get("/v1/match/{id}", 4)
                 .then()
                 .statusCode(200)
-                .body("id", notNullValue(),
+                .body("id", `is`(4),
                         "gameMode", `is`(newMatch.gameMode),
                         "gamePlay", `is`(newMatch.gamePlay),
                         "difficulty", `is`(newMatch.difficulty),

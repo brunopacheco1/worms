@@ -1,9 +1,9 @@
 package com.dev.bruno.worms.dto
 
 class NewMatchPlayer {
-    lateinit var playerId: String
+    var playerId: Long = 0
 
-    constructor(playerId: String) {
+    constructor(playerId: Long) {
         this.playerId = playerId
     }
 

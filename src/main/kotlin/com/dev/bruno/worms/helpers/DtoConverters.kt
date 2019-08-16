@@ -7,9 +7,9 @@ import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewPlayer
 import com.dev.bruno.worms.dto.PlayerInfo
 
-fun NewPlayer.asPlayer() = Player(this.nickname)
+fun NewPlayer.asPlayer() = Player(nickname)
 
-fun Player.asPlayerInfo() = PlayerInfo(this.id, this.nickname)
+fun Player.asPlayerInfo() = PlayerInfo(id, nickname)
 
 fun NewMatch.asMatch() = Match(gameMode, gamePlay, difficulty, playerMode, numberOfPlayers, mapSize)
 

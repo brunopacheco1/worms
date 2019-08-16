@@ -20,7 +20,7 @@ class PlayerResource {
 
     @GET
     @Path("/{id}")
-    fun retrievePlayer(@PathParam("id") id: String): PlayerInfo {
+    fun retrievePlayer(@PathParam("id") id: Long): PlayerInfo {
         throw RuntimeException("Not implemented")
     }
 }

@@ -1,6 +1,7 @@
 package com.dev.bruno.worms.domain
 
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
 
@@ -20,5 +21,6 @@ class Match(
         val rounds: MutableSet<Round> = hashSetOf()
 ) {
     @Id
-    lateinit var id: String
+    @GeneratedValue
+    var id: Long = 0
 }

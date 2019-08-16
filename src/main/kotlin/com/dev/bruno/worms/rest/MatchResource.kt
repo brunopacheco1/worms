@@ -22,19 +22,15 @@ class MatchResource {
     @PUT
     @Path("/{matchId}/players")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayerIntoMatch(@PathParam("matchId") matchId: String,
+    fun addPlayerIntoMatch(@PathParam("matchId") matchId: Long,
                            newMatchPlayer: NewMatchPlayer): MatchInfo {
         return matchService.addPlayerIntoMatch(matchId, newMatchPlayer)
     }
 
     @GET
-    fun retrieveMatches(): Set<MatchInfo> {
-        throw RuntimeException("Not implemented")
-    }
+    fun retrieveMatches(): List<MatchInfo> = matchService.listMatches()
 
     @GET
     @Path("/{id}")
-    fun retrieveMatch(@PathParam("id") id: String): MatchInfo {
-        throw RuntimeException("Not implemented")
-    }
+    fun getMatch(@PathParam("id") id: Long) = matchService.getMatch(id)
 }
