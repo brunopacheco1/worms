@@ -4,6 +4,7 @@ import com.dev.bruno.worms.domain.PlayerMatch
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.helpers.asMatch
 import com.dev.bruno.worms.helpers.asMatchInfo
@@ -40,4 +41,8 @@ class MatchService {
     fun getMatch(id: Long) = matchRepository.get(id).asMatchInfo()
 
     fun listMatches() = matchRepository.list().map { it.asMatchInfo() }
+
+    fun addAction(matchId: Long, playerAction: PlayerAction) {
+        val match = matchRepository.get(matchId)
+    }
 }

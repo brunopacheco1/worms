@@ -11,18 +11,18 @@ import org.junit.jupiter.api.Test
 @QuarkusTest
 open class RoundResourceTest {
 
+    private val matchId = 3;
+
     @Test
     fun given_nickname_when_post_then_return_player_info() {
-        val matchId = "match_id_test"
-
         val playerAction = PlayerAction(
-                "player_id_test",
+                1,
                 direction = Direction.UP
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().post("/v1/match/{matchId}/rounds", matchId)
+                .`when`().put("/v1/match/{matchId}/rounds", matchId)
                 .then()
-                .statusCode(200)
+                .statusCode(202)
     }
 }

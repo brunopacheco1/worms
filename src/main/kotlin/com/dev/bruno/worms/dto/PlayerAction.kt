@@ -3,10 +3,10 @@ package com.dev.bruno.worms.dto
 import com.dev.bruno.worms.domain.Direction
 
 class PlayerAction {
-    lateinit var playerId: String
-    lateinit var direction: Direction
+    var playerId: Long = 0
+    var direction: Direction = Direction.UP
 
-    constructor(playerId: String, direction: Direction) {
+    constructor(playerId: Long, direction: Direction) {
         this.playerId = playerId
         this.direction = direction
     }
