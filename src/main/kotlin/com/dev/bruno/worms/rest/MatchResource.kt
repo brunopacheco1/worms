@@ -17,7 +17,7 @@ class MatchResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addMatch(newMatch: NewMatch) = matchService.add(newMatch)
+    fun addMatch(newMatch: NewMatch) = matchService.addMatch(newMatch)
 
     @PUT
     @Path("/{matchId}/players")
