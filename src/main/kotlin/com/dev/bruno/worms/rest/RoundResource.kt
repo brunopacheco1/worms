@@ -2,8 +2,7 @@ package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.PlayerAction
-import com.dev.bruno.worms.services.MatchService
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody
+import com.dev.bruno.worms.services.RoundService
 import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -14,15 +13,13 @@ import javax.ws.rs.core.Response
 class RoundResource {
 
     @Inject
-    lateinit var matchService: MatchService
+    lateinit var roundService: RoundService
 
     @PUT
     @Path("/{matchId}/rounds")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun movingPlayer(
-            @PathParam("matchId") matchId: Long,
-            @RequestBody playerAction: PlayerAction): Response {
-        matchService.addAction(matchId, playerAction)
+    fun movingPlayer(@PathParam("matchId") matchId: Long, playerAction: PlayerAction): Response {
+        roundService.addAction(matchId, playerAction)
         return Response.accepted().build()
     }
 

@@ -4,12 +4,15 @@ import javax.persistence.*
 
 @Entity
 class Round(
-        @Id
-        @GeneratedValue
-        val id: Long,
         val status: RoundStatus,
         @ManyToOne
-        val match: Match,
+        val match: Match
+) {
+
+        @Id
+        @GeneratedValue
+        val id: Long = 0
+
         @OneToMany(mappedBy = "round")
         val players: Set<PlayerRound> = hashSetOf()
-)
+}

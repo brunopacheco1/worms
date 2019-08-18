@@ -4,14 +4,17 @@ import javax.persistence.*
 
 @Entity
 class PlayerRound(
-        @Id
-        @GeneratedValue
-        val id: Long,
-        @OneToMany
-        val currentPosition: Set<MapPoint> = hashSetOf(),
-        val direction: Direction,
+        var direction: Direction,
         @ManyToOne
         val player: PlayerMatch,
         @ManyToOne
         val round: Round
-)
+) {
+
+        @Id
+        @GeneratedValue
+        val id: Long = 0
+
+        @OneToMany
+        val currentPosition: Set<MapPoint> = hashSetOf()
+}

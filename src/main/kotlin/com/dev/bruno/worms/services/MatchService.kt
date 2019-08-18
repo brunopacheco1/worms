@@ -1,5 +1,6 @@
 package com.dev.bruno.worms.services
 
+import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.domain.PlayerMatch
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
@@ -31,18 +32,18 @@ class MatchService {
     fun addPlayerIntoMatch(matchId: Long, newMatchPlayer: NewMatchPlayer): MatchInfo {
         val match = matchRepository.get(matchId)
         if (match.players.any { it.player.id == newMatchPlayer.playerId }) return match.asMatchInfo()
+        addPlayerIntoMatch(newMatchPlayer, match)
+        return match.asMatchInfo()
+    }
+
+    private fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer, match: Match) {
         if(match.numberOfPlayers == match.players.size) throw MaximumPlayersException()
         val player = playerRepository.get(newMatchPlayer.playerId)
         val playerMatch = PlayerMatch(player, match)
         playerMatchRepository.save(playerMatch)
-        return match.asMatchInfo()
     }
 
     fun getMatch(id: Long) = matchRepository.get(id).asMatchInfo()
 
     fun listMatches() = matchRepository.list().map { it.asMatchInfo() }
-
-    fun addAction(matchId: Long, playerAction: PlayerAction) {
-        val match = matchRepository.get(matchId)
-    }
 }

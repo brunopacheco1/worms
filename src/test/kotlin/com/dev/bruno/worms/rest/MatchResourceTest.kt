@@ -11,8 +11,8 @@ import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.hasItems
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -33,8 +33,8 @@ open class MatchResourceTest {
 
     private val newMatchId = 5
     private val existingMatchId = 3
-    private val newPlayerId1: Long = 1
-    private val newPlayerId2: Long = 2
+    private val newPlayerId1 = 1
+    private val newPlayerId2 = 2
 
     @Test
     @Order(1)
@@ -42,7 +42,7 @@ open class MatchResourceTest {
         given().contentType(ContentType.JSON).body(newMatch.toJson())
                 .`when`().post("/v1/match")
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
                         "gameMode", `is`(newMatch.gameMode.name),
                         "gamePlay", `is`(newMatch.gamePlay.name),
@@ -55,12 +55,12 @@ open class MatchResourceTest {
     @Test
     @Order(2)
     fun given_new_match_player_and_match_id_when_post_then_return_match_info() {
-        val newMatchPlayer = NewMatchPlayer(newPlayerId1)
+        val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
                 .`when`().put("/v1/match/{matchId}/players", newMatchId)
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
                         "gameMode", `is`(newMatch.gameMode.name),
                         "gamePlay", `is`(newMatch.gamePlay.name),
@@ -68,13 +68,13 @@ open class MatchResourceTest {
                         "playerMode", `is`(newMatch.playerMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize),
-                        "players", hasItems(1))
+                        "players[0].id", `is`(newPlayerId1))
     }
 
     @Test
     @Order(3)
     fun given_another_new_match_player_and_match_id_when_post_then_throw_exception() {
-        val newMatchPlayer = NewMatchPlayer(newPlayerId2)
+        val newMatchPlayer = NewMatchPlayer(newPlayerId2.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
                 .`when`().put("/v1/match/{matchId}/players", newMatchId)
@@ -89,7 +89,7 @@ open class MatchResourceTest {
         given()
                 .`when`().get("/v1/match")
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("[0].id", `is`(existingMatchId),
                         "[1].id", `is`(newMatchId),
                         "[1].gameMode", `is`(newMatch.gameMode.name),
@@ -98,7 +98,7 @@ open class MatchResourceTest {
                         "[1].playerMode", `is`(newMatch.playerMode.name),
                         "[1].numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "[1].mapSize", `is`(newMatch.mapSize),
-                        "[1].players", hasItems(1))
+                        "[1].players[0].id", `is`(newPlayerId1))
     }
 
     @Test
@@ -107,7 +107,7 @@ open class MatchResourceTest {
         given()
                 .`when`().get("/v1/match/{id}", newMatchId)
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
                         "gameMode", `is`(newMatch.gameMode.name),
                         "gamePlay", `is`(newMatch.gamePlay.name),
@@ -115,6 +115,6 @@ open class MatchResourceTest {
                         "playerMode", `is`(newMatch.playerMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize),
-                        "players", hasItems(1))
+                        "players[0].id", `is`(newPlayerId1))
     }
 }

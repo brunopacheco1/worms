@@ -16,9 +16,9 @@ class Match(
         var roundsCounter: Int = 0,
         var status: MatchStatus = MatchStatus.WAITING_PLAYERS,
         @OneToMany(mappedBy = "match")
-        val players: MutableSet<PlayerMatch> = hashSetOf(),
+        val players: Set<PlayerMatch> = hashSetOf(),
         @OneToMany(mappedBy = "match")
-        val rounds: MutableSet<Round> = hashSetOf()
+        val rounds: List<Round> = arrayListOf()
 ) {
     @Id
     @GeneratedValue

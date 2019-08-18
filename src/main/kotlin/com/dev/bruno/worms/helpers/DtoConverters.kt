@@ -13,4 +13,4 @@ fun Player.asPlayerInfo() = PlayerInfo(id, nickname)
 
 fun NewMatch.asMatch() = Match(gameMode, gamePlay, difficulty, playerMode, numberOfPlayers, mapSize)
 
-fun Match.asMatchInfo() = MatchInfo(id, gameMode, gamePlay, difficulty, playerMode, numberOfPlayers, mapSize, players.map { it.player.id })
+fun Match.asMatchInfo() = MatchInfo(id, gameMode, gamePlay, difficulty, playerMode, numberOfPlayers, mapSize, players.map { it.player.asPlayerInfo() })

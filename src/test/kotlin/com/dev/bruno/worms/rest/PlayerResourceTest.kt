@@ -5,6 +5,7 @@ import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.MethodOrderer
@@ -26,7 +27,7 @@ open class PlayerResourceTest {
         given().contentType(ContentType.JSON).body(newPlayer.toJson())
                 .`when`().post("/v1/player/")
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("id", notNullValue(),
                         "nickname", `is`(newPlayer.nickname))
     }
@@ -37,7 +38,7 @@ open class PlayerResourceTest {
         given()
                 .`when`().get("/v1/player/{id}", existingPlayerId)
                 .then()
-                .statusCode(200)
+                .statusCode(StatusCodes.OK)
                 .body("id", `is`(existingPlayerId),
                         "nickname", `is`(existingPlayerNickname))
     }

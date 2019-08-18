@@ -1,6 +1,8 @@
 package com.dev.bruno.worms.exceptions
 
+import io.undertow.util.StatusCodes
+
 class MaximumPlayersException : WormsException(
-        400,
-        "Maximum numbers of players for this match has been reached"
+        StatusCodes.NOT_ACCEPTABLE,
+        "Maximum numbers of players for this match has been reached."
 )
