@@ -1,22 +1,14 @@
 language: java
-sudo: false
 dist: trusty
 cache:
   directories:
     - $HOME/.m2
-    - $HOME/.jdk
-before_script:
-  - unset -v _JAVA_OPTIONS
-  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
-  - source install-jdk.sh --target $HOME/.jdk/ --silent --emit-java-home --url https://github.com/oracle/graal/releases/download/vm-19.1.1/graalvm-ce-linux-amd64-19.1.1.tar.gz
-  - gu install native-image
-  - java -version
 services:
   - docker
 script:
-  - mvn clean package -Pnative -Dnative-image.docker-build=true -DskipTests=true
+  - mvn clean package
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms" .;
+    docker build -f src/main/docker/Dockerfile.jvm -t "brunopacheco1/worms:jvm" .;
     else
-    docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms:$TRAVIS_BRANCH" .;
+    docker build -f src/main/docker/Dockerfile.jvm -t "brunopacheco1/worms:jvm-$TRAVIS_BRANCH" .;
     fi
