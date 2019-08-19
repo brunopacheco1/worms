@@ -1,0 +1,26 @@
+language: java
+dist: trusty
+sudo: required
+jdk:
+  - oraclejdk8
+services:
+  - docker
+addons:
+  sonarcloud:
+    organization: $SONAR_ORGANIZATION
+    token:
+      secure: $SONAR_TOKEN
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Pnative -Dnative-image.docker-build=true;
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build -f src/main/docker/Dockerfile.native -t "$DOCKER_USERNAME/worms" .;
+    else
+    docker build -f src/main/docker/Dockerfile.native -t "$DOCKER_USERNAME/worms:$TRAVIS_BRANCH" .;
+    fi
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker push "$DOCKER_USERNAME/worms:latest";
+    else
+    docker push "$DOCKER_USERNAME/worms:$TRAVIS_BRANCH";
+    fi
