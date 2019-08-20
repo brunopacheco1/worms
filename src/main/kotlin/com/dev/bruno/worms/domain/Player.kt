@@ -1,15 +1,12 @@
 package com.dev.bruno.worms.domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
 class Player(val nickname: String) {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 
     @OneToMany(mappedBy = "player")

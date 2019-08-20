@@ -9,10 +9,10 @@ class Round(
         val match: Match
 ) {
 
-        @Id
-        @GeneratedValue
-        val id: Long = 0
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0
 
-        @OneToMany(mappedBy = "round")
-        val players: Set<PlayerRound> = hashSetOf()
+    @OneToMany(mappedBy = "round")
+    val players: Set<PlayerRound> = hashSetOf()
 }

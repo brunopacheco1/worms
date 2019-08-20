@@ -5,10 +5,19 @@ cache:
     - $HOME/.m2
 services:
   - docker
+before_script:
+  - docker run --name worms-postgres -rm -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=mysecret -e POSTGRES_DB=worms -p 5432:5432 -d postgres
 script:
   - mvn clean package
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build -f src/main/docker/Dockerfile.jvm -t "brunopacheco1/worms:jvm" .;
+    docker build -f src/main/docker/Dockerfile.jvm -t "$DOCKER_USERNAME/worms:jvm" .;
     else
-    docker build -f src/main/docker/Dockerfile.jvm -t "brunopacheco1/worms:jvm-$TRAVIS_BRANCH" .;
+    docker build -f src/main/docker/Dockerfile.jvm -t "$DOCKER_USERNAME/worms:jvm-$TRAVIS_BRANCH" .;
+    fi
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker push "brunopacheco1/worms:jvm";
+    else
+    docker push "brunopacheco1/worms:jvm-$TRAVIS_BRANCH";
     fi

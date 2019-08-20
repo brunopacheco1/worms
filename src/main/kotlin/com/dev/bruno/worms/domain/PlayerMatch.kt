@@ -10,7 +10,7 @@ class PlayerMatch(
         val match: Match) {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
     var wormLength: Int = 1
     var status: PlayerStatus = PlayerStatus.PLAYING

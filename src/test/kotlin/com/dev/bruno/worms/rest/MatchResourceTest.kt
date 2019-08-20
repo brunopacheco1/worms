@@ -31,8 +31,8 @@ open class MatchResourceTest {
             30
     )
 
-    private val newMatchId = 5
-    private val existingMatchId = 3
+    private val newMatchId = 2
+    private val existingMatchId = 1
     private val newPlayerId1 = 1
     private val newPlayerId2 = 2
 

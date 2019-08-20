@@ -11,10 +11,10 @@ class PlayerRound(
         val round: Round
 ) {
 
-        @Id
-        @GeneratedValue
-        val id: Long = 0
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0
 
-        @OneToMany
-        val currentPosition: Set<MapPoint> = hashSetOf()
+    @OneToMany
+    val currentPosition: Set<MapPoint> = hashSetOf()
 }

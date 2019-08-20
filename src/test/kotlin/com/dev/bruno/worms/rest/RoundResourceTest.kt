@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 @QuarkusTest
 open class RoundResourceTest {
 
-    private val matchId = 3
+    private val matchId = 1
 
     @Test
     fun given_new_player_action_and_not_started_match_when_post_then_throw_exception() {
