@@ -6,7 +6,7 @@ cache:
 services:
   - docker
 before_script:
-  - docker run --name worms-postgres -rm -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=mysecret -e POSTGRES_DB=worms -p 5432:5432 -d postgres
+  - docker run --name worms-postgres --rm -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=mysecret -e POSTGRES_DB=worms -p 5432:5432 -d postgres
 script:
   - mvn clean package
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
