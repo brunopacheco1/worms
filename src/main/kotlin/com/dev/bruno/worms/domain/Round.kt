@@ -1,17 +1,17 @@
 package com.dev.bruno.worms.domain
 
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 
 @Entity
 data class Round(
         val status: RoundStatus,
         @ManyToOne
-        val match: Match,
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0
-) {
+        val match: Match
+) : Persistable<Long>() {
 
-    @OneToMany(mappedBy = "round")
+    @OneToMany(mappedBy = "round", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     val players: Set<PlayerRound> = hashSetOf()
 }

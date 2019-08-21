@@ -9,16 +9,13 @@ data class Match(
         val difficulty: Difficulty,
         val playerMode: PlayerMode,
         val numberOfPlayers: Int,
-        val mapSize: Int,
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0
-) {
+        val mapSize: Int
+) : Persistable<Long>() {
 
     var status: MatchStatus = MatchStatus.WAITING_PLAYERS
     var roundsCounter: Int = 0
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     val players: Set<PlayerMatch> = hashSetOf()
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     val rounds: List<Round> = arrayListOf()
 }

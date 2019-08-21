@@ -7,7 +7,7 @@ import com.dev.bruno.worms.domain.PlayerMode
 
 @Dto
 data class MatchInfo(
-        val id: Long,
+        val id: Long?,
         val gameMode: GameMode,
         val gamePlay: GamePlay,
         val difficulty: Difficulty,

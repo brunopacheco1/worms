@@ -4,4 +4,4 @@ import com.dev.bruno.worms.domain.Match
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class MatchRepository : Repository<Match>(Match::class.java)
+class MatchRepository : Repository<Long, Match>(Match::class.java)

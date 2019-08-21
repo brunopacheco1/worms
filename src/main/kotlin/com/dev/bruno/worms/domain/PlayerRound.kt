@@ -1,6 +1,8 @@
 package com.dev.bruno.worms.domain
 
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 
 @Entity
 data class PlayerRound(
@@ -8,11 +10,8 @@ data class PlayerRound(
         @ManyToOne
         val player: PlayerMatch,
         @ManyToOne
-        val round: Round,
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0
-) {
+        val round: Round
+) : Persistable<Long>() {
 
     @OneToMany
     val currentPosition: Set<MapPoint> = hashSetOf()

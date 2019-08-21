@@ -4,7 +4,7 @@ import com.dev.bruno.worms.domain.MapPoint
 
 @Dto
 data class MatchMapPlayer(
-        val playerId: String,
+        val playerId: Long?,
         val status: MatchMapPlayerStatus,
         val wormLength: Int,
         val position: Set<MapPoint>

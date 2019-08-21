@@ -4,4 +4,4 @@ import com.dev.bruno.worms.domain.PlayerMatch
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class PlayerMatchRepository : Repository<PlayerMatch>(PlayerMatch::class.java)
+class PlayerMatchRepository : Repository<Long, PlayerMatch>(PlayerMatch::class.java)
