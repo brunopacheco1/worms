@@ -5,6 +5,7 @@ import com.dev.bruno.worms.domain.MatchStatus
 import com.dev.bruno.worms.domain.PlayerRound
 import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.exceptions.MatchFinishedException
+import com.dev.bruno.worms.exceptions.MatchNotFoundException
 import com.dev.bruno.worms.exceptions.MatchNotStartedException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.repositories.MatchRepository
@@ -24,7 +25,7 @@ class RoundService {
     }
 
     private fun getMatch(matchId: Long): Match {
-        val match = matchRepository.get(matchId)
+        val match = matchRepository.get(matchId) ?: throw MatchNotFoundException()
         if (match.status == MatchStatus.FINISHED) throw MatchFinishedException()
         return match
     }

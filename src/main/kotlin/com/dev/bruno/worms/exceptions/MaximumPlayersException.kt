@@ -4,5 +4,5 @@ import io.undertow.util.StatusCodes
 
 class MaximumPlayersException : WormsException(
         StatusCodes.NOT_ACCEPTABLE,
-        "Maximum numbers of players for this match has been reached."
+        "Maximum numbers of players has been reached for this match."
 )

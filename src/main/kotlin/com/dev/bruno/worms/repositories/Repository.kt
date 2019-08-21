@@ -20,7 +20,7 @@ abstract class Repository<T>(open val clazz: Class<T>) {
         return em.merge(entity)
     }
 
-    open fun get(id: Long) = em.find(clazz, id)
+    open fun get(id: Long): T? = em.find(clazz, id)
 
     open fun list() = em.createQuery("Select e from ${clazz.name} e", clazz).resultList
 }

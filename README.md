@@ -7,7 +7,7 @@ mvn package -Pnative -Dnative-image.docker-build=true
 ```
 ## Build native app docker image
 ```
-docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms:native" .;
+docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms:native" .
 ```
 ## Running the DB
 ```

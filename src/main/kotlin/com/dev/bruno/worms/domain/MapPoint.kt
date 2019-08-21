@@ -7,9 +7,9 @@ import javax.persistence.Id
 
 @Entity
 data class MapPoint(
+        val x: Int,
+        val y: Int,
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
-        val x: Int,
-        val y: Int
+        val id: Long = 0
 )

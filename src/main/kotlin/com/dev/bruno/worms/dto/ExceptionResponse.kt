@@ -1,5 +1,6 @@
 package com.dev.bruno.worms.dto
 
-class ExceptionResponse(
+@Dto
+data class ExceptionResponse(
         val message: String
 )

@@ -13,7 +13,7 @@ class ThrowableHandler : ExceptionMapper<Throwable> {
     val log: Logger = LoggerFactory.getLogger(ThrowableHandler::class.java)
 
     override fun toResponse(ex: Throwable): Response {
-        log.info(ex.message, ex)
-        return Response.status(500).entity(ExceptionResponse(ex.message ?: "Unknown exception")).build()
+        log.error(ex.message, ex)
+        return Response.status(500).entity(ExceptionResponse("[Unknown exception] ${ex.message}")).build()
     }
 }
