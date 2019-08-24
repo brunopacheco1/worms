@@ -8,11 +8,11 @@ import javax.persistence.OneToMany
 data class PlayerRound(
         var direction: Direction,
         @ManyToOne
-        val player: PlayerMatch,
+        var player: PlayerMatch,
         @ManyToOne
-        val round: Round
+        var round: Round
 ) : Persistable<Long>() {
 
     @OneToMany
-    val currentPosition: Set<MapPoint> = hashSetOf()
+    var currentPosition: MutableSet<MapPoint> = hashSetOf()
 }

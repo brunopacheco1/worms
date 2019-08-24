@@ -2,6 +2,6 @@ package com.dev.bruno.worms.dto
 
 @Dto
 data class PlayerInfo(
-        val id: Long?,
-        val nickname: String
+        var id: Long?,
+        var nickname: String
 )

@@ -5,7 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.OneToMany
 
 @Entity
-data class Player(val nickname: String) : Persistable<Long>() {
+data class Player(var nickname: String) : Persistable<Long>() {
     @OneToMany(mappedBy = "player", cascade = [(CascadeType.ALL)], orphanRemoval = true)
-    val matches: Set<PlayerMatch> = hashSetOf()
+    var matches: MutableSet<PlayerMatch> = hashSetOf()
 }
