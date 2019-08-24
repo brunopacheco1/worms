@@ -10,10 +10,9 @@ import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class PlayerService {
-
-    @Inject
-    lateinit var playerRepository: PlayerRepository
+class PlayerService @Inject constructor(
+        val playerRepository: PlayerRepository
+) {
 
     fun add(newPlayer: NewPlayer) = playerRepository.save(newPlayer.asPlayer()).asPlayerInfo()
 

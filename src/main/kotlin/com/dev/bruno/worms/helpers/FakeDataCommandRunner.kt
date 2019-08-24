@@ -36,6 +36,7 @@ class FakeDataCommandRunner {
                 1,
                 30
         )
+        match.status = MatchStatus.RUNNING
 
         matchRepository.save(match)
 

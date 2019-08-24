@@ -1,15 +1,14 @@
 package com.dev.bruno.worms.domain
 
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
 data class Round(
         var roundOrder: Long,
         @ManyToOne
-        var match: Match
+        var match: Match,
+        @Embedded
+        var foodPosition: MapPoint
 ) : Persistable<Long>() {
 
     var status = RoundStatus.WAITING_PLAYERS

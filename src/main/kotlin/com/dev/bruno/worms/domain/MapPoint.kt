@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.domain
 
-import javax.persistence.Entity
+import javax.persistence.Embeddable
 
-@Entity
-data class MapPoint(var x: Int, var y: Int) : Persistable<Long>()
+@Embeddable
+data class MapPoint(var x: Int, var y: Int)

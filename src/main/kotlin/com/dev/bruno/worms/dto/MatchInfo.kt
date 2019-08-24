@@ -1,13 +1,11 @@
 package com.dev.bruno.worms.dto
 
-import com.dev.bruno.worms.domain.Difficulty
-import com.dev.bruno.worms.domain.GameMode
-import com.dev.bruno.worms.domain.GamePlay
-import com.dev.bruno.worms.domain.PlayerMode
+import com.dev.bruno.worms.domain.*
 
 @Dto
 data class MatchInfo(
         var id: Long?,
+        var status: MatchStatus,
         var gameMode: GameMode,
         var gamePlay: GamePlay,
         var difficulty: Difficulty,

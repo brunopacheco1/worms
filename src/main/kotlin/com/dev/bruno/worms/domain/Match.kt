@@ -15,7 +15,6 @@ data class Match(
 ) : Persistable<Long>() {
 
     var status: MatchStatus = MatchStatus.WAITING_PLAYERS
-    var roundsCounter: Int = 0
     @OneToMany(mappedBy = "match", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     var players: MutableSet<PlayerMatch> = hashSetOf()
     @OneToMany(mappedBy = "match", cascade = [(CascadeType.ALL)], orphanRemoval = true)

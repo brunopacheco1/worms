@@ -1,11 +1,13 @@
 package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Match
+import com.dev.bruno.worms.domain.MatchStatus
 import com.dev.bruno.worms.domain.PlayerMatch
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
 import com.dev.bruno.worms.exceptions.MatchNotFoundException
+import com.dev.bruno.worms.exceptions.MatchRunningException
 import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.helpers.asMatch
@@ -17,23 +19,20 @@ import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class MatchService {
-
-    @Inject
-    lateinit var matchRepository: MatchRepository
-
-    @Inject
-    lateinit var playerRepository: PlayerRepository
-
-    @Inject
-    lateinit var playerMatchRepository: PlayerMatchRepository
+class MatchService @Inject constructor(
+        val playerRepository: PlayerRepository,
+        val matchRepository: MatchRepository,
+        val playerMatchRepository: PlayerMatchRepository,
+        val roundService: RoundService
+) {
 
     fun addMatch(newMatch: NewMatch) = matchRepository.save(newMatch.asMatch()).asMatchInfo()
 
     fun addPlayerIntoMatch(matchId: Long, newMatchPlayer: NewMatchPlayer): MatchInfo {
-        val match = matchRepository.get(matchId) ?: throw MatchNotFoundException()
+        val match = getMatch(matchId)
         if (match.players.any { it.player.id == newMatchPlayer.playerId }) return match.asMatchInfo()
         addPlayerIntoMatch(newMatchPlayer, match)
+        roundService.startMatchIfItIsReady(match)
         return match.asMatchInfo()
     }
 
@@ -44,10 +43,16 @@ class MatchService {
         playerMatchRepository.save(playerMatch)
     }
 
-    fun getMatch(id: Long): MatchInfo {
+    private fun getMatch(id: Long): Match {
+        val match = matchRepository.get(id) ?: throw MatchNotFoundException()
+        if (match.status == MatchStatus.RUNNING) throw MatchRunningException()
+        return match
+    }
+
+    fun retrieveMatch(id: Long): MatchInfo {
         val match = matchRepository.get(id) ?: throw MatchNotFoundException()
         return match.asMatchInfo()
     }
 
-    fun listMatches() = matchRepository.list().map { it.asMatchInfo() }
+    fun retrieveMatches() = matchRepository.list().map { it.asMatchInfo() }
 }

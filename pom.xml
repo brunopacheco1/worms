@@ -66,6 +66,11 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.1</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
@@ -110,6 +115,7 @@
                     <pluginOptions>
                         <option>all-open:annotation=javax.ws.rs.Path</option>
                         <option>all-open:annotation=javax.enterprise.context.ApplicationScoped</option>
+                        <option>all-open:annotation=javax.enterprise.context.RequestScoped</option>
                         <option>all-open:annotation=javax.ws.rs.ext.Provider</option>
                         <option>all-open:annotation=javax.persistence.MappedSuperclass</option>
                         <option>all-open:annotation=javax.persistence.Entity</option>
