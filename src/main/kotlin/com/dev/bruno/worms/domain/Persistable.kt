@@ -11,5 +11,5 @@ abstract class Persistable<T : Serializable> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: T? = null
+    var id: T? = null
 }
