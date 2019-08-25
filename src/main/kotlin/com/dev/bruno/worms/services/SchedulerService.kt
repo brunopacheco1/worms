@@ -15,7 +15,7 @@ class SchedulerService {
 
     val scheduler: Scheduler = StdSchedulerFactory().scheduler
 
-    private fun onStart(@Observes ev: StartupEvent) {
+    fun onStart(@Observes ev: StartupEvent) {
         scheduler.start()
     }
 
@@ -25,7 +25,7 @@ class SchedulerService {
         scheduler.scheduleJob(job, trigger)
     }
 
-    private fun buildTrigger(match: Match): SimpleTrigger? {
+    private fun buildTrigger(match: Match): SimpleTrigger {
         return TriggerBuilder.newTrigger()
                 .withIdentity("myTrigger", "group1")
                 .startNow()
@@ -35,7 +35,7 @@ class SchedulerService {
                 .build()
     }
 
-    private fun buildJob(match: Match): JobDetail? {
+    private fun buildJob(match: Match): JobDetail {
         return JobBuilder.newJob(RoundEvaluatorJob::class.java)
                 .withIdentity("round-evaluator-${match.id}", "round-evaluator")
                 .usingJobData("match", match.asRunningMatch().toJson())

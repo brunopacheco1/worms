@@ -17,4 +17,4 @@ fun PlayerRound.asMatchMapPlayer() = MatchMapPlayer(player.player.id, player.sta
 
 fun Match.asMatchMap() = MatchMap(id, rounds.size, rounds.last().players.map { it.asMatchMapPlayer() }.toSet(), rounds.last().foodPosition)
 
-fun Match.asRunningMatch() = RunningMatch(id, players.map { it.player.id }.toSet())
+fun Match.asRunningMatch() = RunningMatch(id, mapSize, players.map { it.player.id }.toSet())

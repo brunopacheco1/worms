@@ -5,5 +5,5 @@ import com.google.common.collect.Maps
 import java.util.concurrent.ConcurrentMap
 
 object PlayerActionPool {
-    val playerActions: ConcurrentMap<Long, Direction> = Maps.newConcurrentMap()
+    val playerActions: ConcurrentMap<Long?, Direction> = Maps.newConcurrentMap()
 }
