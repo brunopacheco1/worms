@@ -16,3 +16,5 @@ fun Match.asMatchInfo() = MatchInfo(id, status, gameMode, gamePlay, difficulty, 
 fun PlayerRound.asMatchMapPlayer() = MatchMapPlayer(player.player.id, player.status, player.wormLength, direction, currentPosition)
 
 fun Match.asMatchMap() = MatchMap(id, rounds.size, rounds.last().players.map { it.asMatchMapPlayer() }.toSet(), rounds.last().foodPosition)
+
+fun Match.asRunningMatch() = RunningMatch(id, players.map { it.player.id }.toSet())

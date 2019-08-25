@@ -1,6 +1,8 @@
 package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Match
+import com.dev.bruno.worms.helpers.asRunningMatch
+import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.runtime.StartupEvent
 import org.quartz.*
 import org.quartz.impl.StdSchedulerFactory
@@ -36,7 +38,7 @@ class SchedulerService {
     private fun buildJob(match: Match): JobDetail? {
         return JobBuilder.newJob(RoundEvaluatorJob::class.java)
                 .withIdentity("round-evaluator-${match.id}", "round-evaluator")
-                .usingJobData("matchId", match.id)
+                .usingJobData("match", match.asRunningMatch().toJson())
                 .build()
     }
 }
