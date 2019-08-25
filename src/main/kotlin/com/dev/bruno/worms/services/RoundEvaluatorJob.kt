@@ -13,7 +13,7 @@ import org.quartz.JobExecutionContext
 
 class RoundEvaluatorJob : Job {
 
-    private val initialWormSize = 2;
+    private val initialWormSize = 2
 
     private val maps: MutableList<MatchMap> = arrayListOf()
 
@@ -28,14 +28,14 @@ class RoundEvaluatorJob : Job {
         println(newMap.toJson())
     }
 
-    private fun getDirections(runningMatch: RunningMatch): Map<Long, Direction> {
+    private fun getDirections(runningMatch: RunningMatch): Map<Long?, Direction> {
         if (maps.isEmpty()) {
             return runningMatch.players.map { it to Direction.DOWN }.toMap()
         }
         return PlayerActionPool.playerActions.filter { runningMatch.players.contains(it.key) }
     }
 
-    private fun evaluatePlayers(runningMatch: RunningMatch, directions: Map<Long, Direction>): Set<MatchMapPlayer> {
+    private fun evaluatePlayers(runningMatch: RunningMatch, directions: Map<Long?, Direction>): Set<MatchMapPlayer> {
         if (maps.isEmpty()) {
             directions.map { MatchMapPlayer(it.key, PlayerStatus.PLAYING, initialWormSize, it.value, calculateInitialPosition()) }
         }
