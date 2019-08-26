@@ -14,5 +14,5 @@ data class Round(
     var status = RoundStatus.WAITING_PLAYERS
 
     @OneToMany(mappedBy = "round", cascade = [(CascadeType.ALL)], orphanRemoval = true)
-    var players: MutableSet<PlayerRound> = hashSetOf()
+    var players: MutableList<PlayerRound> = arrayListOf()
 }

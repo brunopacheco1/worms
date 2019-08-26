@@ -8,7 +8,6 @@ import com.dev.bruno.worms.exceptions.MatchFinishedException
 import com.dev.bruno.worms.exceptions.MatchNotFoundException
 import com.dev.bruno.worms.exceptions.MatchNotStartedException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
-import com.dev.bruno.worms.helpers.asMatchMap
 import com.dev.bruno.worms.repositories.MatchRepository
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class RoundService @Inject constructor(
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
         validateMatch(matchId, playerAction.playerId)
-        PlayerActionPool.playerActions[playerAction.playerId] = playerAction.direction
+        PlayerMatchPool.playerActions[playerAction.playerId] = playerAction.direction
     }
 
     private fun validateMatch(matchId: Long, playerId: Long) {
@@ -38,6 +37,7 @@ class RoundService @Inject constructor(
 
     fun startMatchIfItIsReady(match: Match) {
         if (match.numberOfPlayers == match.players.size) {
+            PlayerMatchPool.playerMatches[match.id] = arrayListOf()
             updateMatchStatus(match)
             schedulerService.startMatch(match)
         }
@@ -51,6 +51,6 @@ class RoundService @Inject constructor(
     fun generateMap(matchId: Long): MatchMap {
         val match = matchRepository.get(matchId) ?: throw MatchNotFoundException()
         if (match.status != MatchStatus.RUNNING) throw MatchNotStartedException()
-        return match.asMatchMap()
+        return PlayerMatchPool.playerMatches[match.id]?.first() ?: throw MatchNotStartedException()
     }
 }

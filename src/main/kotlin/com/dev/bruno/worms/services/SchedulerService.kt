@@ -27,7 +27,7 @@ class SchedulerService {
 
     private fun buildTrigger(match: Match): SimpleTrigger {
         return TriggerBuilder.newTrigger()
-                .withIdentity("myTrigger", "group1")
+                .withIdentity("trigger-${match.id}", "group-${match.id}")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInMilliseconds(match.difficulty.tickRate)

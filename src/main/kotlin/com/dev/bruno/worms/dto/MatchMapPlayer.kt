@@ -7,8 +7,8 @@ import com.dev.bruno.worms.domain.PlayerStatus
 @Dto
 data class MatchMapPlayer(
         var playerId: Long?,
-        var status: PlayerStatus,
-        var wormLength: Int,
-        var direction: Direction,
-        var position: List<MapPoint>
+        var status: PlayerStatus = PlayerStatus.PLAYING,
+        var wormLength: Int = 0,
+        var direction: Direction = Direction.DOWN,
+        var position: List<MapPoint> = arrayListOf()
 )
