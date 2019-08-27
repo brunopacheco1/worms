@@ -6,7 +6,7 @@ object RoundEvaluatorFactory {
         val evaluator = BasicInitializerEvaluator()
         evaluator.link(DirectionEvaluator())
                 .link(PlayerPositionEvaluator())
-                .link(PlayerStatusEvaluator())
+                .link(MatchAndPlayersStatusEvaluator())
                 .link(NewFoodLocationEvaluator())
         return evaluator
     }
