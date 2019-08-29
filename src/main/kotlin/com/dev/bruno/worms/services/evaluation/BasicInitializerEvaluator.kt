@@ -9,34 +9,54 @@ class BasicInitializerEvaluator : Evaluator() {
 
     private val initialWormSize = 2
 
-    override fun evaluate(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap) {
+    override fun doEvaluation(runningMatch: RunningMatch,
+                          lastMap: MatchMap?,
+                          currentMap: MatchMap) {
         if (lastMap == null) {
-            currentMap.foodPosition = MapPoint(runningMatch.mapSize / 2, runningMatch.mapSize / 2)
+            currentMap.foodPosition = MapPoint(
+                runningMatch.mapSize / 2, runningMatch.mapSize / 2
+            )
             currentMap.roundCounter = 1
-            currentMap.players.forEachIndexed { index, player ->
-                player.direction = Direction.values()[index % runningMatch.players.size]
-                player.position = calculateInitialPosition(player.direction, runningMatch.mapSize)
-                player.wormLength = initialWormSize
-            }
+            currentMap.players
+                .forEachIndexed { index, player ->
+                    player.direction = calculateInnitialDirecrion(index)
+                    player.position = calculateInitialPosition(
+                        player.direction, runningMatch.mapSize
+                    )
+                    player.wormLength = initialWormSize
+                }
         } else {
             currentMap.foodPosition = lastMap.foodPosition
             currentMap.roundCounter = lastMap.roundCounter + 1
             lastMap.players.forEachIndexed { index, player ->
-                currentMap.players[index].status = player.status
-                currentMap.players[index].position = player.position
-                currentMap.players[index].wormLength = player.wormLength
-                currentMap.players[index].direction = player.direction
+                val currentPlayer = currentMap.players[index]
+                currentPlayer.status = player.status
+                currentPlayer.position = player.position
+                currentPlayer.wormLength = player.wormLength
+                currentPlayer.direction = player.direction
             }
         }
-        next?.evaluate(runningMatch, lastMap, currentMap)
     }
 
-    private fun calculateInitialPosition(direction: Direction, mapSize: Int): List<MapPoint> {
-        return when (direction) {
-            Direction.UP -> arrayListOf(MapPoint(0, 0), MapPoint(0, 1))
-            Direction.RIGHT -> arrayListOf(MapPoint(0, mapSize - 1), MapPoint(1, mapSize - 1))
-            Direction.DOWN -> arrayListOf(MapPoint(mapSize - 1, mapSize - 1), MapPoint(mapSize - 1, mapSize - 2))
-            Direction.LEFT -> arrayListOf(MapPoint(mapSize - 1, 0), MapPoint(mapSize - 2, 0))
+    private fun calculateInnitialDirection(index: Int): Direction {
+        return Direction.values()[index % runningMatch.players.size]
+    }
+
+    private fun calculateInitialPosition(dir: Direction,
+                                         size: Int): List<MapPoint> {
+        return when (dir) {
+            Direction.UP -> arrayListOf(
+                MapPoint(0, 0), MapPoint(0, 1)
+            )
+            Direction.RIGHT -> arrayListOf(
+                MapPoint(0, size - 1), MapPoint(1, size - 1)
+            )
+            Direction.DOWN -> arrayListOf(
+                MapPoint(size - 1, size - 1), MapPoint(size - 1, size - 2)
+            )
+            Direction.LEFT -> arrayListOf(
+                MapPoint(size - 1, 0), MapPoint(size - 2, 0)
+            )
         }
     }
 }

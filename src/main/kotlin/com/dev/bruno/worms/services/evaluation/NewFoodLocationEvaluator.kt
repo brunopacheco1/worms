@@ -10,21 +10,25 @@ import kotlin.random.Random
 class NewFoodLocationEvaluator : Evaluator() {
 
     override fun evaluate(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap) {
-        val stillPlaying = currentMap.players
-                .filter { it.status == PlayerStatus.PLAYING }
+        val stillPlaying = currentMap.players.filter {
+            it.status == PlayerStatus.PLAYING
+        }
+
         val playersLastPointIsEqualFoodPoint = stillPlaying
                 .map { it.position.last() }
                 .any { lastPoint -> lastPoint == currentMap.foodPosition }
+
         if (playersLastPointIsEqualFoodPoint) {
-            currentMap.foodPosition = calculateNewFoodPosition(
+            currentMap.foodPosition = getFoodPosition(
                     runningMatch,
                     stillPlaying
             )
         }
-        next?.evaluate(runningMatch, lastMap, currentMap)
     }
 
-    private fun calculateNewFoodPosition(runningMatch: RunningMatch, players: List<MatchMapPlayer>): MapPoint {
+    private fun getFoodPosition(runningMatch: RunningMatch,
+                                players: List<MatchMapPlayer): MapPoint {
+
         val allOccupiedPoints = players.flatMap { it.position }.toHashSet()
 
         var newFood: MapPoint

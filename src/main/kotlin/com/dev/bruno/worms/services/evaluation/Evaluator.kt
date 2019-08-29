@@ -12,5 +12,13 @@ abstract class Evaluator {
         return next
     }
 
-    abstract fun evaluate(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap)
+    abstract fun doEvaluation(runningMatch: RunningMatch,
+                              lastMap: MatchMap?,
+                              currentMap: MatchMap)
+
+    fun evaluate(runningMatch: RunningMatch,                                                 lastMap: MatchMap?,
+                 currentMap: MatchMap) {
+        doEvaluation(runningMatch, lastMap, currentMap)
+        next?.evaluate(runningMatch, lastMap, currentMap)
+    }
 }
