@@ -30,14 +30,18 @@ class SchedulerService {
                 .withIdentity("trigger-${match.id}", "group-${match.id}")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInMilliseconds(match.difficulty.tickRate)
+                        .withIntervalInMilliseconds(
+                            match.difficulty.tickRate
+                        )
                         .repeatForever())
                 .build()
     }
 
     private fun buildJob(match: Match): JobDetail {
         return JobBuilder.newJob(RoundEvaluatorJob::class.java)
-                .withIdentity("round-evaluator-${match.id}", "round-evaluator")
+                .withIdentity(
+                    "round-evaluator-${match.id}", "round-evaluator"
+                )
                 .usingJobData("match", match.asRunningMatch().toJson())
                 .build()
     }

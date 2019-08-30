@@ -16,19 +16,29 @@ import javax.inject.Inject
 @ApplicationScoped
 class RoundService @Inject constructor(
         val matchRepository: MatchRepository,
-        val schedulerService: SchedulerService
+        val schedulerService: SchedulerService,
+        val poolService: PlayerMatchPoolService
 ) {
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
         validateMatch(matchId, playerAction.playerId)
-        PlayerMatchPool.playerActions[playerAction.playerId] = playerAction.direction
+        poolService.addPlayerAction(playerAction)
     }
 
     private fun validateMatch(matchId: Long, playerId: Long) {
-        val match = matchRepository.get(matchId) ?: throw MatchNotFoundException()
-        if (match.status == MatchStatus.WAITING_PLAYERS) throw MatchNotStartedException()
-        if (match.status == MatchStatus.FINISHED) throw MatchFinishedException()
-        if (!hasPlayer(match, playerId)) throw PlayerNotFoundException()
+        val match = matchRepository.get(matchId)
+        if (match == null) {
+            throw MatchNotFoundException()
+        }
+        if (match.status == MatchStatus.WAITING_PLAYERS) {
+            throw MatchNotStartedException()
+        }
+        if (match.status == MatchStatus.FINISHED) {
+            throw MatchFinishedException()
+        }
+        if (!hasPlayer(match, playerId)) {
+            throw PlayerNotFoundException()
+        }
     }
 
     private fun hasPlayer(match: Match, playerId: Long): Boolean {
@@ -37,7 +47,6 @@ class RoundService @Inject constructor(
 
     fun startMatchIfItIsReady(match: Match) {
         if (match.numberOfPlayers == match.players.size) {
-            PlayerMatchPool.playerMatches[match.id] = arrayListOf()
             updateMatchStatus(match)
             schedulerService.startMatch(match)
         }
@@ -49,8 +58,13 @@ class RoundService @Inject constructor(
     }
 
     fun generateMap(matchId: Long): MatchMap {
-        val match = matchRepository.get(matchId) ?: throw MatchNotFoundException()
-        if (match.status != MatchStatus.RUNNING) throw MatchNotStartedException()
-        return PlayerMatchPool.playerMatches[match.id]?.first() ?: throw MatchNotStartedException()
+        val match = matchRepository.get(matchId)
+        if(match == null) {
+            throw MatchNotFoundException()
+        }
+        if (match.status != MatchStatus.RUNNING) {
+            throw MatchNotStartedException()
+        }
+        return poolService.getLastMap(matchId)
     }
 }
