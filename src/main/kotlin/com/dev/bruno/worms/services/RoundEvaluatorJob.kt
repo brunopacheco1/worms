@@ -2,7 +2,6 @@ package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.MapPoint
 import com.dev.bruno.worms.domain.MatchStatus
-import com.dev.bruno.worms.domain.PlayerStatus
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.MatchMapPlayer
 import com.dev.bruno.worms.dto.RunningMatch
@@ -18,15 +17,15 @@ class RoundEvaluatorJob : Job {
         val matchStr = dataMap.getString("match")
         val match = matchStr.fromJson(RunningMatch::class.java)
         val currentMap = buildNewMap(match)
-        val lastMap = PlayerMatchPoolService.getLastMap(runningMatch.id)
+        val lastMap = MatchPool.getLastMap(match.id)
         val evaluator = RoundEvaluatorFactory.getRoundEvaluator()
-        evaluator.evaluate(runningMatch, lastMap, currentMap)
+        evaluator.evaluate(match, lastMap, currentMap)
 
-        if(lastMap == null || lastMap.status != MatchStatus.FINISHED) {
-            maps.add(currentMap)
+        if (lastMap == null || lastMap.status != MatchStatus.FINISHED) {
+            MatchPool.addMap(currentMap)
             if (currentMap.status == MatchStatus.FINISHED) {
                 context.scheduler.rescheduleJob(
-                    context.trigger.key, buildStoppingTrigger()
+                        context.trigger.key, buildStoppingTrigger()
                 )
             }
         }
@@ -38,7 +37,7 @@ class RoundEvaluatorJob : Job {
                 runningMatch.id,
                 0,
                 runningMatch.players
-                    .map { MatchMapPlayer(it) }.toMutableList(),
+                        .map { MatchMapPlayer(it) }.toMutableList(),
                 MapPoint(0, 0)
         )
     }
@@ -47,8 +46,8 @@ class RoundEvaluatorJob : Job {
         return TriggerBuilder.newTrigger()
                 .startNow()
                 .withSchedule(
-                    SimpleScheduleBuilder.simpleSchedule()
-                        .withRepeatCount(0)
+                        SimpleScheduleBuilder.simpleSchedule()
+                                .withRepeatCount(0)
                 )
                 .build()
     }

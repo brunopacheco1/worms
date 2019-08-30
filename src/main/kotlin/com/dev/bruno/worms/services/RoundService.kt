@@ -16,20 +16,17 @@ import javax.inject.Inject
 @ApplicationScoped
 class RoundService @Inject constructor(
         val matchRepository: MatchRepository,
-        val schedulerService: SchedulerService,
-        val poolService: PlayerMatchPoolService
+        val schedulerService: SchedulerService
 ) {
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
         validateMatch(matchId, playerAction.playerId)
-        poolService.addPlayerAction(playerAction)
+        MatchPool.addPlayerAction(playerAction)
     }
 
     private fun validateMatch(matchId: Long, playerId: Long) {
         val match = matchRepository.get(matchId)
-        if (match == null) {
-            throw MatchNotFoundException()
-        }
+        match ?: throw MatchNotFoundException()
         if (match.status == MatchStatus.WAITING_PLAYERS) {
             throw MatchNotStartedException()
         }
@@ -57,14 +54,12 @@ class RoundService @Inject constructor(
         matchRepository.update(match)
     }
 
-    fun generateMap(matchId: Long): MatchMap {
+    fun generateMap(matchId: Long): MatchMap? {
         val match = matchRepository.get(matchId)
-        if(match == null) {
-            throw MatchNotFoundException()
-        }
+        match ?: throw MatchNotFoundException()
         if (match.status != MatchStatus.RUNNING) {
             throw MatchNotStartedException()
         }
-        return poolService.getLastMap(matchId)
+        return MatchPool.getLastMap(matchId)
     }
 }

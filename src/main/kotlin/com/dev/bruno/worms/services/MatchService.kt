@@ -47,18 +47,14 @@ class MatchService @Inject constructor(
             throw MaximumPlayersException()
         }
         val player = playerRepository.get(newMatchPlayer.playerId)
-        if(player == null) {
-            throw PlayerNotFoundException()
-        }
+        player ?: throw PlayerNotFoundException()
         val playerMatch = PlayerMatch(player, match)
         playerMatchRepository.save(playerMatch)
     }
 
     private fun getMatch(id: Long): Match {
         val match = matchRepository.get(id)
-        if(match == null) {
-            throw MatchNotFoundException()
-        }
+        match ?: throw MatchNotFoundException()
         if (match.status == MatchStatus.RUNNING) {
             throw MatchRunningException()
         }
@@ -67,9 +63,7 @@ class MatchService @Inject constructor(
 
     fun retrieveMatch(id: Long): MatchInfo {
         val match = matchRepository.get(id)
-        if(match == null) {
-            throw MatchNotFoundException()
-        }
+        match ?: throw MatchNotFoundException()
         return match.asMatchInfo()
     }
 

@@ -1,6 +1,5 @@
 package com.dev.bruno.worms.services.evaluation
 
-import com.dev.bruno.worms.domain.GameMode
 import com.dev.bruno.worms.domain.MatchStatus
 import com.dev.bruno.worms.domain.PlayerStatus
 import com.dev.bruno.worms.dto.MatchMap
@@ -19,10 +18,10 @@ class MatchAndPlayersStatusEvaluator : Evaluator() {
             val lastPoint = player.position.last()
 
             val xIsOutOfMap = lastPoint.x < 0 ||
-                lastPoint.x >= runningMatch.mapSize
+                    lastPoint.x >= runningMatch.mapSize
 
             val yIsOutOfMap = lastPoint.y < 0 ||
-                lastPoint.y >= runningMatch.mapSize
+                    lastPoint.y >= runningMatch.mapSize
 
             if (xIsOutOfMap || yIsOutOfMap) {
                 player.status = PlayerStatus.DEAD
@@ -40,9 +39,6 @@ class MatchAndPlayersStatusEvaluator : Evaluator() {
             if (allOtherPoints.contains(lastPoint)) {
                 player.status = PlayerStatus.DEAD
             }
-        }
-        if(runningMatch.gameMode == GameMode.CLASSIC) {
-            TODO("Start implementing more gaming business-logic")
         }
 
         if (currentMap.players.none { it.status == PlayerStatus.PLAYING }) {

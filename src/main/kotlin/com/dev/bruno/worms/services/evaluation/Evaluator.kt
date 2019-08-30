@@ -16,7 +16,8 @@ abstract class Evaluator {
                               lastMap: MatchMap?,
                               currentMap: MatchMap)
 
-    fun evaluate(runningMatch: RunningMatch,                                                 lastMap: MatchMap?,
+    fun evaluate(runningMatch: RunningMatch,
+                 lastMap: MatchMap?,
                  currentMap: MatchMap) {
         doEvaluation(runningMatch, lastMap, currentMap)
         next?.evaluate(runningMatch, lastMap, currentMap)
