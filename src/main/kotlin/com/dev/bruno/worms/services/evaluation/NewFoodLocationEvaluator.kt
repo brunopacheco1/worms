@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 class NewFoodLocationEvaluator : Evaluator() {
 
-    override fun evaluate(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap) {
+    override fun doEvaluation(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap) {
         val stillPlaying = currentMap.players.filter {
             it.status == PlayerStatus.PLAYING
         }
@@ -27,7 +27,7 @@ class NewFoodLocationEvaluator : Evaluator() {
     }
 
     private fun getFoodPosition(runningMatch: RunningMatch,
-                                players: List<MatchMapPlayer): MapPoint {
+                                players: List<MatchMapPlayer>): MapPoint {
 
         val allOccupiedPoints = players.flatMap { it.position }.toHashSet()
 

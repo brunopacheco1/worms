@@ -19,7 +19,9 @@ class BasicInitializerEvaluator : Evaluator() {
             currentMap.roundCounter = 1
             currentMap.players
                 .forEachIndexed { index, player ->
-                    player.direction = calculateInnitialDirecrion(index)
+                    player.direction = calculateInnitialDirection(
+                        index, runningMatch.players.size
+                    )
                     player.position = calculateInitialPosition(
                         player.direction, runningMatch.mapSize
                     )
@@ -38,8 +40,9 @@ class BasicInitializerEvaluator : Evaluator() {
         }
     }
 
-    private fun calculateInnitialDirection(index: Int): Direction {
-        return Direction.values()[index % runningMatch.players.size]
+    private fun calculateInnitialDirection(index: Int,
+                                           size: Int): Direction {
+        return Direction.values()[index % size]
     }
 
     private fun calculateInitialPosition(dir: Direction,

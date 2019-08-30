@@ -1,7 +1,8 @@
 package com.dev.bruno.worms.services.evaluation
 
+import com.dev.bruno.worms.domain.Direction
 import com.dev.bruno.worms.domain.PlayerStatus
-import com.dev.bruno.worms.dto.MatchMap
+import com.dev.bruno.worms.dto.MatchMapPlayer
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.RunningMatch
 import com.dev.bruno.worms.services.PlayerMatchPool
@@ -14,7 +15,7 @@ class DirectionEvaluator : Evaluator() {
         currentMap.players
                 .filter { it.status == PlayerStatus.PLAYING }
                 .forEach { player ->
-                    val newDirection = getDirection(player.direction)
+                    val newDirection = getDirection(player)
                     if (!newDirection.isOpposite(player.direction)) {
                         player.direction = newDirection
                     }

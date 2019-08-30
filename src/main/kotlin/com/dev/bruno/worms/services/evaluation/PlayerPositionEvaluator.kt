@@ -32,7 +32,7 @@ class PlayerPositionEvaluator : Evaluator() {
 
                 currentState.position = lastState.position
                      .subList(startIndex, lastState.position.size) +
-                     newLastPoint
+                     newPoint
 
                 currentState.wormLength = currentState.position.size
             }
