@@ -1,12 +1,8 @@
 package com.dev.bruno.worms.services
 
-import com.dev.bruno.worms.domain.MapPoint
 import com.dev.bruno.worms.domain.MatchStatus
-import com.dev.bruno.worms.dto.MatchMap
-import com.dev.bruno.worms.dto.MatchMapPlayer
 import com.dev.bruno.worms.dto.RunningMatch
 import com.dev.bruno.worms.helpers.fromJson
-import com.dev.bruno.worms.helpers.toJson
 import com.dev.bruno.worms.services.evaluation.RoundEvaluatorFactory
 import org.quartz.*
 
@@ -16,30 +12,14 @@ class RoundEvaluatorJob : Job {
         val dataMap = context.jobDetail.jobDataMap
         val matchStr = dataMap.getString("match")
         val match = matchStr.fromJson(RunningMatch::class.java)
-        val currentMap = buildNewMap(match)
-        val lastMap = MatchPool.getLastMap(match.id)
         val evaluator = RoundEvaluatorFactory.getRoundEvaluator()
-        evaluator.evaluate(match, lastMap, currentMap)
+        val currentMap = evaluator.evaluate(match)
 
-        if (lastMap == null || lastMap.status != MatchStatus.FINISHED) {
-            MatchPool.addMap(currentMap)
-            if (currentMap.status == MatchStatus.FINISHED) {
-                context.scheduler.rescheduleJob(
-                        context.trigger.key, buildStoppingTrigger()
-                )
-            }
+        if (currentMap.status == MatchStatus.FINISHED) {
+            context.scheduler.rescheduleJob(
+                    context.trigger.key, buildStoppingTrigger()
+            )
         }
-        println(currentMap.toJson())
-    }
-
-    private fun buildNewMap(runningMatch: RunningMatch): MatchMap {
-        return MatchMap(
-                runningMatch.id,
-                0,
-                runningMatch.players
-                        .map { MatchMapPlayer(it) }.toMutableList(),
-                MapPoint(0, 0)
-        )
     }
 
     private fun buildStoppingTrigger(): SimpleTrigger {

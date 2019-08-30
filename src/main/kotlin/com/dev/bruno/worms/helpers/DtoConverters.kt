@@ -1,5 +1,6 @@
 package com.dev.bruno.worms.helpers
 
+import com.dev.bruno.worms.domain.MapPoint
 import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.domain.Player
 import com.dev.bruno.worms.domain.PlayerRound
@@ -18,3 +19,5 @@ fun PlayerRound.asMatchMapPlayer() = MatchMapPlayer(player.player.id, player.sta
 fun Match.asMatchMap() = MatchMap(id, rounds.size, rounds.last().players.map { it.asMatchMapPlayer() }.toMutableList(), rounds.last().foodPosition)
 
 fun Match.asRunningMatch() = RunningMatch(id, gameMode, gamePlay, difficulty, playerMode, mapSize, players.map { it.player.id }.toList())
+
+fun RunningMatch.asMatchMap() = MatchMap(id, 0, players.map { MatchMapPlayer(it) }.toMutableList(), MapPoint(0, 0))
