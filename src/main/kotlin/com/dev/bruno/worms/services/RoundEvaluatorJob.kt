@@ -12,7 +12,7 @@ class RoundEvaluatorJob : Job {
         val dataMap = context.jobDetail.jobDataMap
         val matchStr = dataMap.getString("match")
         val match = matchStr.fromJson(RunningMatch::class.java)
-        val evaluator = RoundEvaluatorFactory.getRoundEvaluator()
+        val evaluator = RoundEvaluatorFactory.getRoundEvaluator(match)
         val currentMap = evaluator.evaluate(match)
 
         if (currentMap.status == MatchStatus.FINISHED) {

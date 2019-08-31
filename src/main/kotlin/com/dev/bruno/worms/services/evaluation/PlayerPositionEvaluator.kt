@@ -2,7 +2,7 @@ package com.dev.bruno.worms.services.evaluation
 
 import com.dev.bruno.worms.domain.Direction
 import com.dev.bruno.worms.domain.MapPoint
-import com.dev.bruno.worms.domain.PlayerStatus
+import com.dev.bruno.worms.domain.PlayerRoundStatus
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.RunningMatch
 
@@ -14,15 +14,15 @@ class PlayerPositionEvaluator : Evaluator() {
 
         if (lastMap != null) {
             val stillPlaying = currentMap.players.filter {
-                it.status == PlayerStatus.PLAYING
+                it.status == PlayerRoundStatus.PLAYING
             }
 
             stillPlaying.forEachIndexed { index, currentState ->
                 val lastState = lastMap.players[index]
 
                 val newPoint = getNewLastPoint(
-                    lastState.position.last(),
-                    currentState.direction
+                        lastState.position.last(),
+                        currentState.direction
                 )
 
                 var startIndex = 1
@@ -31,8 +31,8 @@ class PlayerPositionEvaluator : Evaluator() {
                 }
 
                 currentState.position = lastState.position
-                     .subList(startIndex, lastState.position.size) +
-                     newPoint
+                        .subList(startIndex, lastState.position.size) +
+                        newPoint
 
                 currentState.wormLength = currentState.position.size
             }

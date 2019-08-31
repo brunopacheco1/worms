@@ -29,10 +29,10 @@ class FakeDataCommandRunner {
         playerRepository.save(player2)
 
         val match = Match(
-                GameMode.CLASSIC,
-                GamePlay.ARROWS,
+                Wall.SOLID,
+                OpponentBody.SOLID,
                 Difficulty.EASY,
-                PlayerMode.SOLID,
+                PlayMode.SURVIVAL,
                 1,
                 30
         )

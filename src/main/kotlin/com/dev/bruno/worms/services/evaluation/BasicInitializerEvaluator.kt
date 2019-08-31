@@ -10,23 +10,23 @@ class BasicInitializerEvaluator : Evaluator() {
     private val initialWormSize = 2
 
     override fun doEvaluation(runningMatch: RunningMatch,
-                          lastMap: MatchMap?,
-                          currentMap: MatchMap) {
+                              lastMap: MatchMap?,
+                              currentMap: MatchMap) {
         if (lastMap == null) {
             currentMap.foodPosition = MapPoint(
-                runningMatch.mapSize / 2, runningMatch.mapSize / 2
+                    runningMatch.mapSize / 2, runningMatch.mapSize / 2
             )
             currentMap.roundCounter = 1
             currentMap.players
-                .forEachIndexed { index, player ->
-                    player.direction = calculateInnitialDirection(
-                        index, runningMatch.players.size
-                    )
-                    player.position = calculateInitialPosition(
-                        player.direction, runningMatch.mapSize
-                    )
-                    player.wormLength = initialWormSize
-                }
+                    .forEachIndexed { index, player ->
+                        player.direction = calculateInitialDirection(
+                                index, runningMatch.players.size
+                        )
+                        player.position = calculateInitialPosition(
+                                player.direction, runningMatch.mapSize
+                        )
+                        player.wormLength = initialWormSize
+                    }
         } else {
             currentMap.foodPosition = lastMap.foodPosition
             currentMap.roundCounter = lastMap.roundCounter + 1
@@ -40,7 +40,7 @@ class BasicInitializerEvaluator : Evaluator() {
         }
     }
 
-    private fun calculateInnitialDirection(index: Int,
+    private fun calculateInitialDirection(index: Int,
                                            size: Int): Direction {
         return Direction.values()[index % size]
     }
@@ -49,16 +49,16 @@ class BasicInitializerEvaluator : Evaluator() {
                                          size: Int): List<MapPoint> {
         return when (dir) {
             Direction.UP -> arrayListOf(
-                MapPoint(0, 0), MapPoint(0, 1)
+                    MapPoint(0, 0), MapPoint(0, 1)
             )
             Direction.RIGHT -> arrayListOf(
-                MapPoint(0, size - 1), MapPoint(1, size - 1)
+                    MapPoint(0, size - 1), MapPoint(1, size - 1)
             )
             Direction.DOWN -> arrayListOf(
-                MapPoint(size - 1, size - 1), MapPoint(size - 1, size - 2)
+                    MapPoint(size - 1, size - 1), MapPoint(size - 1, size - 2)
             )
             Direction.LEFT -> arrayListOf(
-                MapPoint(size - 1, 0), MapPoint(size - 2, 0)
+                    MapPoint(size - 1, 0), MapPoint(size - 2, 0)
             )
         }
     }

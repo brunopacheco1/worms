@@ -1,7 +1,7 @@
 package com.dev.bruno.worms.services.evaluation
 
 import com.dev.bruno.worms.domain.MapPoint
-import com.dev.bruno.worms.domain.PlayerStatus
+import com.dev.bruno.worms.domain.PlayerRoundStatus
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.MatchMapPlayer
 import com.dev.bruno.worms.dto.RunningMatch
@@ -9,9 +9,11 @@ import kotlin.random.Random
 
 class NewFoodLocationEvaluator : Evaluator() {
 
-    override fun doEvaluation(runningMatch: RunningMatch, lastMap: MatchMap?, currentMap: MatchMap) {
+    override fun doEvaluation(runningMatch: RunningMatch,
+                              lastMap: MatchMap?,
+                              currentMap: MatchMap) {
         val stillPlaying = currentMap.players.filter {
-            it.status == PlayerStatus.PLAYING
+            it.status == PlayerRoundStatus.PLAYING
         }
 
         val playersLastPointIsEqualFoodPoint = stillPlaying

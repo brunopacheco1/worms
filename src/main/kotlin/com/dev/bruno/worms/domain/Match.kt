@@ -9,7 +9,7 @@ data class Match(
         var wall: Wall,
         var opponentBody: OpponentBody,
         var difficulty: Difficulty,
-	var playMode: PlayMode,
+        var playMode: PlayMode,
         var numberOfPlayers: Int,
         var mapSize: Int
 ) : Persistable<Long>() {
@@ -17,16 +17,16 @@ data class Match(
     var status: MatchStatus = MatchStatus.WAITING_PLAYERS
 
     @OneToMany(
-	    mappedBy = "match",
-	    cascade = [(CascadeType.ALL)],
-	    orphanRemoval = true
+            mappedBy = "match",
+            cascade = [(CascadeType.ALL)],
+            orphanRemoval = true
     )
     var players: MutableSet<PlayerMatch> = hashSetOf()
 
     @OneToMany(
-	    mappedBy = "match", 
-	    cascade = [(CascadeType.ALL)], 
-	    orphanRemoval = true
+            mappedBy = "match",
+            cascade = [(CascadeType.ALL)],
+            orphanRemoval = true
     )
     var rounds: MutableList<Round> = arrayListOf()
 }

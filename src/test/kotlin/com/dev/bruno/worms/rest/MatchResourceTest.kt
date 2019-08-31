@@ -1,9 +1,9 @@
 package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.domain.Difficulty
-import com.dev.bruno.worms.domain.GameMode
-import com.dev.bruno.worms.domain.GamePlay
-import com.dev.bruno.worms.domain.PlayerMode
+import com.dev.bruno.worms.domain.OpponentBody
+import com.dev.bruno.worms.domain.PlayMode
+import com.dev.bruno.worms.domain.Wall
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
 import com.dev.bruno.worms.exceptions.MaximumPlayersException
@@ -23,10 +23,10 @@ import org.junit.jupiter.api.TestMethodOrder
 open class MatchResourceTest {
 
     private val newMatch = NewMatch(
-            GameMode.CLASSIC,
-            GamePlay.ARROWS,
+            Wall.SOLID,
+            OpponentBody.SOLID,
             Difficulty.EASY,
-            PlayerMode.SOLID,
+            PlayMode.SURVIVAL,
             1,
             30
     )
@@ -44,10 +44,10 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
-                        "gameMode", `is`(newMatch.gameMode.name),
-                        "gamePlay", `is`(newMatch.gamePlay.name),
+                        "wall", `is`(newMatch.wall.name),
+                        "opponentBody", `is`(newMatch.opponentBody.name),
                         "difficulty", `is`(newMatch.difficulty.name),
-                        "playerMode", `is`(newMatch.playerMode.name),
+                        "playMode", `is`(newMatch.playMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize))
     }
@@ -62,10 +62,10 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
-                        "gameMode", `is`(newMatch.gameMode.name),
-                        "gamePlay", `is`(newMatch.gamePlay.name),
+                        "wall", `is`(newMatch.wall.name),
+                        "opponentBody", `is`(newMatch.opponentBody.name),
                         "difficulty", `is`(newMatch.difficulty.name),
-                        "playerMode", `is`(newMatch.playerMode.name),
+                        "playMode", `is`(newMatch.playMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize),
                         "players[0].id", `is`(newPlayerId1))
@@ -92,10 +92,10 @@ open class MatchResourceTest {
                 .statusCode(StatusCodes.OK)
                 .body("[0].id", `is`(existingMatchId),
                         "[1].id", `is`(newMatchId),
-                        "[1].gameMode", `is`(newMatch.gameMode.name),
-                        "[1].gamePlay", `is`(newMatch.gamePlay.name),
+                        "[1].wall", `is`(newMatch.wall.name),
+                        "[1].opponentBody", `is`(newMatch.opponentBody.name),
                         "[1].difficulty", `is`(newMatch.difficulty.name),
-                        "[1].playerMode", `is`(newMatch.playerMode.name),
+                        "[1].playMode", `is`(newMatch.playMode.name),
                         "[1].numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "[1].mapSize", `is`(newMatch.mapSize),
                         "[1].players[0].id", `is`(newPlayerId1))
@@ -109,10 +109,10 @@ open class MatchResourceTest {
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
-                        "gameMode", `is`(newMatch.gameMode.name),
-                        "gamePlay", `is`(newMatch.gamePlay.name),
+                        "wall", `is`(newMatch.wall.name),
+                        "opponentBody", `is`(newMatch.opponentBody.name),
                         "difficulty", `is`(newMatch.difficulty.name),
-                        "playerMode", `is`(newMatch.playerMode.name),
+                        "playMode", `is`(newMatch.playMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize),
                         "players[0].id", `is`(newPlayerId1))

@@ -42,7 +42,7 @@ class MatchService @Inject constructor(
     }
 
     fun addPlayerIntoRandomMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
-
+        TODO("Not implemented yet")
     }
 
     private fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer,

@@ -5,18 +5,13 @@ import com.dev.bruno.worms.domain.PlayerRoundStatus
 import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.RunningMatch
 
-class SurvivalModeEvaluator : Evaluator() {
+class MatchStatusEvaluator : Evaluator() {
 
     override fun doEvaluation(runningMatch: RunningMatch,
                               lastMap: MatchMap?,
                               currentMap: MatchMap) {
-        if (lastMap != null && currentMap.status == MatchStatus.FINISHED) {
-            currentMap.players.forEachIndexed { index, player ->
-                if (lastMap.players[index].status == PlayerRoundStatus.PLAYING) {
-                    player.status = PlayerRoundStatus.WINNER
-                }
-            }
+        if (currentMap.players.none { it.status == PlayerRoundStatus.PLAYING }) {
+            currentMap.status = MatchStatus.FINISHED
         }
     }
 }
-	

@@ -1,5 +1,6 @@
 package com.dev.bruno.worms.rest
 
+import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.services.RoundService
 import javax.enterprise.context.RequestScoped
@@ -26,7 +27,7 @@ class RoundResource @Inject constructor(
 
     @GET
     @Path("/{id}/map")
-    fun retrieveMap(@PathParam("id") id: Long): MatchMap {
-	    return roundService.generateMap(id)
+    fun retrieveMap(@PathParam("id") id: Long): MatchMap? {
+        return roundService.generateMap(id)
     }
 }

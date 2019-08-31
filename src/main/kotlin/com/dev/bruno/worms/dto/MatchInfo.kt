@@ -6,10 +6,10 @@ import com.dev.bruno.worms.domain.*
 data class MatchInfo(
         var id: Long?,
         var status: MatchStatus,
-        var gameMode: GameMode,
-        var gamePlay: GamePlay,
+        var wall: Wall,
+        var opponentBody: OpponentBody,
         var difficulty: Difficulty,
-        var playerMode: PlayerMode,
+        var playMode: PlayMode,
         var numberOfPlayers: Int,
         var mapSize: Int,
         var players: List<PlayerInfo>

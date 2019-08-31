@@ -28,4 +28,5 @@ docker run --network="host" -i --rm -p 5000:5000 brunopacheco1/worms:native
 2019-08-24 - As I know already the problem, going for setting every fields as var, to simplify the solution and move forward with the development;\
 2019-08-24 - BTW, if I change Set and List fields to var, I have to change to MutableSet and MutableList also, some wildcard exceptions happens and I am tired for investigate it further now;\
 2019-08-24 - Now I can move forward with the business implementation, adding new endpoints and improving different areas of the code;\
-2019-08-30 - I have used chain of responsibility to organize better the code of Round Evaluation;
+2019-08-30 - I have used chain of responsibility to organize better the code of Round Evaluation;\
+2019-08-31 - Refactoring and reviewing the domain, to include the match configuration in the round evaluator and to be clearer to understand;
