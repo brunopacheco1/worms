@@ -41,6 +41,10 @@ class MatchService @Inject constructor(
         return match.asMatchInfo()
     }
 
+    fun addPlayerIntoRandomMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
+
+    }
+
     private fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer,
                                    match: Match) {
         if (match.numberOfPlayers == match.players.size) {

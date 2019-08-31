@@ -20,4 +20,4 @@ fun Match.asMatchMap() = MatchMap(id, rounds.size, rounds.last().players.map { i
 
 fun Match.asRunningMatch() = RunningMatch(id, gameMode, gamePlay, difficulty, playerMode, mapSize, players.map { it.player.id }.toList())
 
-fun RunningMatch.asMatchMap() = MatchMap(id, 0, players.map { MatchMapPlayer(it) }.toMutableList(), MapPoint(0, 0))
+fun RunningMatch.asMatchMap() = MatchMap(id, 0, mapSize, pplayers.map { MatchMapPlayer(it) }.toMutableList(), MapPoint(0, 0))

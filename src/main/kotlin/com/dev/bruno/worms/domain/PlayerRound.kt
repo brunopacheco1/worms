@@ -12,7 +12,11 @@ data class PlayerRound(
         var round: Round
 ) : Persistable<Long>() {
 
+    var wormLength = 2
+
     var direction = Direction.UP
+
+    var status = PlayerRoundStatus.PLAYING
 
     @ElementCollection
     var currentPosition: MutableList<MapPoint> = arrayListOf()

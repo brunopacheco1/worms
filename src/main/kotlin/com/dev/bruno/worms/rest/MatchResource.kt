@@ -18,7 +18,9 @@ class MatchResource @Inject constructor(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addMatch(newMatch: NewMatch) = matchService.addMatch(newMatch)
+    fun addMatch(newMatch: NewMatch): MatchInfo {
+	    return matchService.addMatch(newMatch)
+    }
 
     @PUT
     @Path("/{id}/players")
@@ -28,10 +30,20 @@ class MatchResource @Inject constructor(
         return matchService.addPlayerIntoMatch(id, newMatchPlayer)
     }
 
+    @POST
+    @Path("/players")
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
+        return matchService.addPlayerIntoRandomMatch(newMatchPlayer)
+
     @GET
-    fun retrieveMatches(): List<MatchInfo> = matchService.retrieveMatches()
+    fun retrieveMatches(): List<MatchInfo> {
+	    return matchService.retrieveMatches()
+    }
 
     @GET
     @Path("/{id}")
-    fun getMatch(@PathParam("id") id: Long) = matchService.retrieveMatch(id)
+    fun getMatch(@PathParam("id") id: Long): MatchInfo {
+	    return matchService.retrieveMatch(id)
+    }
 }

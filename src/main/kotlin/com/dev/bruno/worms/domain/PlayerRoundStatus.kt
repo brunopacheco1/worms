@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.domain
 
-enum class PlayerStatus {
+enum class PlayerRoundStatus {
     PLAYING,
     WINNER,
     DEAD

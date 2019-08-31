@@ -11,8 +11,7 @@ data class PlayerMatch(
         @ManyToOne
         var match: Match
 ) : Persistable<Long>() {
-    var wormLength: Int = 1
-    var status: PlayerStatus = PlayerStatus.PLAYING
+
     @OneToMany(mappedBy = "player")
     var rounds: MutableSet<PlayerRound> = hashSetOf()
 }

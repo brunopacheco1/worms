@@ -18,12 +18,15 @@ class RoundResource @Inject constructor(
     @PUT
     @Path("/{id}/rounds")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun movingPlayer(@PathParam("id") id: Long, playerAction: PlayerAction): Response {
+    fun movingPlayer(@PathParam("id") id: Long,
+                     playerAction: PlayerAction): Response {
         roundService.addAction(id, playerAction)
         return Response.accepted().build()
     }
 
     @GET
     @Path("/{id}/map")
-    fun retrieveMap(@PathParam("id") id: Long) = roundService.generateMap(id)
+    fun retrieveMap(@PathParam("id") id: Long): MatchMap {
+	    return roundService.generateMap(id)
+    }
 }

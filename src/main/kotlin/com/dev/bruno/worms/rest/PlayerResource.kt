@@ -18,9 +18,13 @@ class PlayerResource @Inject constructor(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayer(newPlayer: NewPlayer) = playerService.add(newPlayer)
+    fun addPlayer(newPlayer: NewPlayer): PlayerInfo {
+	    return playerService.add(newPlayer)
+    }
 
     @GET
     @Path("/{id}")
-    fun getPlayer(@PathParam("id") id: Long) = playerService.getPlayer(id)
+    fun getPlayer(@PathParam("id") id: Long): PlayerInfo {
+	    return playerService.getPlayer(id)
+    }
 }

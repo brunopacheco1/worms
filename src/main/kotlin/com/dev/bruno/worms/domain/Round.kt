@@ -11,8 +11,10 @@ data class Round(
         var foodPosition: MapPoint
 ) : Persistable<Long>() {
 
-    var status = RoundStatus.WAITING_PLAYERS
-
-    @OneToMany(mappedBy = "round", cascade = [(CascadeType.ALL)], orphanRemoval = true)
+    @OneToMany(
+	    mappedBy = "round", 
+	    cascade = [(CascadeType.ALL)], 
+	    orphanRemoval = true
+    )
     var players: MutableList<PlayerRound> = arrayListOf()
 }
