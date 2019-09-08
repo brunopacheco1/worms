@@ -2,47 +2,24 @@ package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.helpers.asRunningMatch
-import com.dev.bruno.worms.helpers.toJson
-import io.quarkus.runtime.StartupEvent
-import org.quartz.*
-import org.quartz.impl.StdSchedulerFactory
+import io.vertx.axle.core.Vertx
+import org.reactivestreams.Publisher
 import javax.enterprise.context.ApplicationScoped
-import javax.enterprise.event.Observes
+import javax.inject.Inject
 
 
 @ApplicationScoped
-class SchedulerService {
-
-    val scheduler: Scheduler = StdSchedulerFactory().scheduler
-
-    fun onStart(@Observes ev: StartupEvent) {
-        scheduler.start()
-    }
+class SchedulerService @Inject constructor(
+        val vertx: Vertx
+) {
 
     fun startMatch(match: Match) {
-        val job = buildJob(match)
-        val trigger = buildTrigger(match)
-        scheduler.scheduleJob(job, trigger)
+        val runningMatch = match.asRunningMatch()
+        val job = RoundEvaluatorJob(runningMatch, vertx)
+        vertx.setPeriodic(match.difficulty.tickRate, job)
     }
 
-    private fun buildTrigger(match: Match): SimpleTrigger {
-        return TriggerBuilder.newTrigger()
-                .withIdentity("trigger-${match.id}", "group-${match.id}")
-                .startNow()
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInMilliseconds(
-                            match.difficulty.tickRate
-                        )
-                        .repeatForever())
-                .build()
-    }
-
-    private fun buildJob(match: Match): JobDetail {
-        return JobBuilder.newJob(RoundEvaluatorJob::class.java)
-                .withIdentity(
-                    "round-evaluator-${match.id}", "round-evaluator"
-                )
-                .usingJobData("match", match.asRunningMatch().toJson())
-                .build()
+    fun streamingMatchMap(matchId: Long): Publisher<String> {
+        return vertx.eventBus().consumer<String>("match-$matchId").bodyStream().toPublisher()
     }
 }

@@ -2,13 +2,13 @@ package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.domain.MatchStatus
-import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.exceptions.MatchFinishedException
 import com.dev.bruno.worms.exceptions.MatchNotFoundException
 import com.dev.bruno.worms.exceptions.MatchNotStartedException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.repositories.MatchRepository
+import org.reactivestreams.Publisher
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
@@ -20,12 +20,11 @@ class RoundService @Inject constructor(
 ) {
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
-        validateMatch(matchId, playerAction.playerId)
+        validateMatchAndPlayer(matchId, playerAction.playerId)
         MatchPool.addPlayerAction(playerAction)
     }
 
-    private fun validateMatch(matchId: Long, playerId: Long) {
-        val match = matchRepository.get(matchId)
+    private fun validateMatch(match: Match?) {
         match ?: throw MatchNotFoundException()
         if (match.status == MatchStatus.WAITING_PLAYERS) {
             throw MatchNotStartedException()
@@ -33,13 +32,18 @@ class RoundService @Inject constructor(
         if (match.status == MatchStatus.FINISHED) {
             throw MatchFinishedException()
         }
+    }
+
+    private fun validateMatchAndPlayer(matchId: Long, playerId: Long) {
+        val match = matchRepository.get(matchId)
+        validateMatch(match)
         if (!hasPlayer(match, playerId)) {
             throw PlayerNotFoundException()
         }
     }
 
-    private fun hasPlayer(match: Match, playerId: Long): Boolean {
-        return match.players.any { it.player.id == playerId }
+    private fun hasPlayer(match: Match?, playerId: Long): Boolean {
+        return match!!.players.any { it.player.id == playerId }
     }
 
     fun startMatchIfItIsReady(match: Match) {
@@ -54,12 +58,9 @@ class RoundService @Inject constructor(
         matchRepository.update(match)
     }
 
-    fun generateMap(matchId: Long): MatchMap? {
+    fun streamingMatchMap(matchId: Long): Publisher<String> {
         val match = matchRepository.get(matchId)
-        match ?: throw MatchNotFoundException()
-        if (match.status != MatchStatus.RUNNING) {
-            throw MatchNotStartedException()
-        }
-        return MatchPool.getLastMap(matchId)
+        validateMatch(match)
+        return schedulerService.streamingMatchMap(matchId)
     }
 }

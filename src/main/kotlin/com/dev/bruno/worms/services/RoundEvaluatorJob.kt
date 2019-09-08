@@ -2,33 +2,22 @@ package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.MatchStatus
 import com.dev.bruno.worms.dto.RunningMatch
-import com.dev.bruno.worms.helpers.fromJson
+import com.dev.bruno.worms.helpers.toJson
 import com.dev.bruno.worms.services.evaluation.RoundEvaluatorFactory
-import org.quartz.*
+import io.vertx.axle.core.Vertx
+import java.util.function.Consumer
 
-class RoundEvaluatorJob : Job {
+class RoundEvaluatorJob(
+        val match: RunningMatch,
+        val vertx: Vertx
+) : Consumer<Long> {
 
-    override fun execute(context: JobExecutionContext) {
-        val dataMap = context.jobDetail.jobDataMap
-        val matchStr = dataMap.getString("match")
-        val match = matchStr.fromJson(RunningMatch::class.java)
+    override fun accept(timerId: Long) {
         val evaluator = RoundEvaluatorFactory.getRoundEvaluator(match)
         val currentMap = evaluator.evaluate(match)
-
+        vertx.eventBus().publish("match-${match.id}", currentMap.toJson())
         if (currentMap.status == MatchStatus.FINISHED) {
-            context.scheduler.rescheduleJob(
-                    context.trigger.key, buildStoppingTrigger()
-            )
+            vertx.cancelTimer(timerId)
         }
-    }
-
-    private fun buildStoppingTrigger(): SimpleTrigger {
-        return TriggerBuilder.newTrigger()
-                .startNow()
-                .withSchedule(
-                        SimpleScheduleBuilder.simpleSchedule()
-                                .withRepeatCount(0)
-                )
-                .build()
     }
 }

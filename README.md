@@ -13,7 +13,7 @@ docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms:native
 ```
 ## Running the DB
 ```
-docker run --name worms-postgres -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=mysecret -e POSTGRES_DB=worms -p 5432:5432 -d postgres
+docker run --name worms-postgres -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=worms -e POSTGRES_DB=worms -p 5555:5432 -d postgres
 ```
 ## Running the app
 ```
@@ -29,4 +29,5 @@ docker run --network="host" -i --rm -p 5000:5000 brunopacheco1/worms:native
 2019-08-24 - BTW, if I change Set and List fields to var, I have to change to MutableSet and MutableList also, some wildcard exceptions happens and I am tired for investigate it further now;\
 2019-08-24 - Now I can move forward with the business implementation, adding new endpoints and improving different areas of the code;\
 2019-08-30 - I have used chain of responsibility to organize better the code of Round Evaluation;\
-2019-08-31 - Refactoring and reviewing the domain, to include the match configuration in the round evaluator and to be clearer to understand;
+2019-08-31 - Refactoring and reviewing the domain, to include the match configuration in the round evaluator and to be clearer to understand;\
+2019-09-08 - Implementing Vert.x in order to add some async features, for server sent events and periodic tasks, a bit complex because somehow there are a lot of implementations and Quarkus is supporting many of them, but manageable, I had to find the one which was working properly (after some hour failing).
