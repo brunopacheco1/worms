@@ -1,8 +1,8 @@
 package com.dev.bruno.worms.domain
 
-import com.dev.bruno.worms.services.evaluation.Evaluator
-import com.dev.bruno.worms.services.evaluation.MirrorWallEvaluator
-import com.dev.bruno.worms.services.evaluation.SolidWallEvaluator
+import com.dev.bruno.worms.evaluation.Evaluator
+import com.dev.bruno.worms.evaluation.MirrorWallEvaluator
+import com.dev.bruno.worms.evaluation.SolidWallEvaluator
 
 enum class Wall {
     SOLID,

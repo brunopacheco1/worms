@@ -11,7 +11,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.Test
 
 @QuarkusTest
-open class RoundResourceTest {
+open class MatchEvaluationResourceTest {
 
     private val matchId = 1
 

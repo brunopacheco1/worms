@@ -1,10 +1,10 @@
-package com.dev.bruno.worms.services.evaluation
+package com.dev.bruno.worms.evaluation
 
 import com.dev.bruno.worms.dto.RunningMatch
 
-object RoundEvaluatorFactory {
+object MatchEvaluatorFactory {
 
-    fun getRoundEvaluator(match: RunningMatch): RoundEvaluator {
+    fun getEvaluator(match: RunningMatch): RoundEvaluator {
         val evaluator = BasicInitializerEvaluator()
         evaluator.link(DirectionEvaluator())
                 .link(PlayerPositionEvaluator())

@@ -1,8 +1,8 @@
 package com.dev.bruno.worms.domain
 
-import com.dev.bruno.worms.services.evaluation.Evaluator
-import com.dev.bruno.worms.services.evaluation.LongestWormModeEvaluator
-import com.dev.bruno.worms.services.evaluation.SurvivalModeEvaluator
+import com.dev.bruno.worms.evaluation.Evaluator
+import com.dev.bruno.worms.evaluation.LongestWormModeEvaluator
+import com.dev.bruno.worms.evaluation.SurvivalModeEvaluator
 
 enum class PlayMode {
     SURVIVAL,

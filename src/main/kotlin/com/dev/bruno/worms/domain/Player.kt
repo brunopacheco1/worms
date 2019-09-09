@@ -14,5 +14,5 @@ data class Player(
 	    cascade = [(CascadeType.ALL)],
 	    orphanRemoval = true
     )
-    var matches: MutableSet<PlayerMatch> = hashSetOf()
+    var matchPlayers: MutableSet<MatchPlayer> = hashSetOf()
 }

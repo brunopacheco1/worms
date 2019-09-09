@@ -1,19 +1,19 @@
-package com.dev.bruno.worms.services.evaluation
+package com.dev.bruno.worms.evaluation
 
-import com.dev.bruno.worms.domain.MapPoint
-import com.dev.bruno.worms.domain.PlayerRoundStatus
-import com.dev.bruno.worms.dto.MatchMap
-import com.dev.bruno.worms.dto.MatchMapPlayer
+import com.dev.bruno.worms.dto.MapPoint
+import com.dev.bruno.worms.domain.MatchPlayerStatus
+import com.dev.bruno.worms.dto.Map
+import com.dev.bruno.worms.dto.MapPlayer
 import com.dev.bruno.worms.dto.RunningMatch
 import kotlin.random.Random
 
 class NewFoodLocationEvaluator : Evaluator() {
 
     override fun doEvaluation(runningMatch: RunningMatch,
-                              lastMap: MatchMap?,
-                              currentMap: MatchMap) {
+                              lastMap: Map?,
+                              currentMap: Map) {
         val stillPlaying = currentMap.players.filter {
-            it.status == PlayerRoundStatus.PLAYING
+            it.status == MatchPlayerStatus.PLAYING
         }
 
         val playersLastPointIsEqualFoodPoint = stillPlaying
@@ -29,7 +29,7 @@ class NewFoodLocationEvaluator : Evaluator() {
     }
 
     private fun getFoodPosition(runningMatch: RunningMatch,
-                                players: List<MatchMapPlayer>): MapPoint {
+                                players: List<MapPlayer>): MapPoint {
 
         val allOccupiedPoints = players.flatMap { it.position }.toHashSet()
 

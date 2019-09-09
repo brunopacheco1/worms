@@ -2,7 +2,7 @@ package com.dev.bruno.worms.helpers
 
 import com.dev.bruno.worms.domain.*
 import com.dev.bruno.worms.repositories.MatchRepository
-import com.dev.bruno.worms.repositories.PlayerMatchRepository
+import com.dev.bruno.worms.repositories.MatchPlayerRepository
 import com.dev.bruno.worms.repositories.PlayerRepository
 import io.quarkus.runtime.StartupEvent
 import javax.enterprise.context.ApplicationScoped
@@ -19,7 +19,7 @@ class FakeDataCommandRunner {
     lateinit var matchRepository: MatchRepository
 
     @Inject
-    lateinit var playerMatchRepository: PlayerMatchRepository
+    lateinit var matchPlayerRepository: MatchPlayerRepository
 
     fun onStart(@Observes ev: StartupEvent) {
         val player1 = Player("player_test_1")
@@ -40,6 +40,6 @@ class FakeDataCommandRunner {
 
         matchRepository.save(match)
 
-        playerMatchRepository.save(PlayerMatch(player1, match))
+        matchPlayerRepository.save(MatchPlayer(player1, match))
     }
 }

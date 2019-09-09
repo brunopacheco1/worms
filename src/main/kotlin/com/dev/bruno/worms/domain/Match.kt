@@ -21,12 +21,5 @@ data class Match(
             cascade = [(CascadeType.ALL)],
             orphanRemoval = true
     )
-    var players: MutableSet<PlayerMatch> = hashSetOf()
-
-    @OneToMany(
-            mappedBy = "match",
-            cascade = [(CascadeType.ALL)],
-            orphanRemoval = true
-    )
-    var rounds: MutableList<Round> = arrayListOf()
+    var players: MutableList<MatchPlayer> = arrayListOf()
 }

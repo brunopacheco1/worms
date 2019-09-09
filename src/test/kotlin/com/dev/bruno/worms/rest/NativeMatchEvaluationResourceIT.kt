@@ -3,4 +3,4 @@ package com.dev.bruno.worms.rest
 import io.quarkus.test.junit.SubstrateTest
 
 @SubstrateTest
-open class NativeRoundResourceIT : RoundResourceTest()
+open class NativeMatchEvaluationResourceIT : MatchEvaluationResourceTest()

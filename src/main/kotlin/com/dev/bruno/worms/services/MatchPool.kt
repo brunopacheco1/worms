@@ -1,34 +1,38 @@
 package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Direction
-import com.dev.bruno.worms.dto.MatchMap
+import com.dev.bruno.worms.dto.Map
 import com.dev.bruno.worms.dto.PlayerAction
+import com.dev.bruno.worms.dto.RunningMatch
 import com.google.common.collect.Maps
 import java.util.concurrent.ConcurrentMap
 
 object MatchPool {
 
-    private val actions: ConcurrentMap<Long?, Direction> =
+    private val ACTIONS: ConcurrentMap<Long, Direction> =
             Maps.newConcurrentMap()
 
-    private val matches: ConcurrentMap<Long?, MutableList<MatchMap>> =
+    private val MAPS: ConcurrentMap<Long, Map> =
             Maps.newConcurrentMap()
 
-    fun addPlayerAction(playerAction: PlayerAction) {
-        actions[playerAction.playerId] = playerAction.direction
+    fun addAction(playerAction: PlayerAction) {
+        ACTIONS[playerAction.playerId] = playerAction.direction
     }
 
-    fun getLastMap(matchId: Long?): MatchMap? {
-        return matches[matchId]?.lastOrNull()
+    fun getLastMap(matchId: Long): Map? {
+        return MAPS[matchId]
     }
 
-    fun addMap(currentMap: MatchMap) {
-        val maps = matches[currentMap.matchId] ?: arrayListOf()
-        maps.add(currentMap)
-        matches[currentMap.matchId] = maps
+    fun addMap(map: Map) {
+        this.MAPS[map.matchId] = map
     }
 
-    fun getDirection(playerId: Long?): Direction? {
-        return actions[playerId]
+    fun getDirection(playerId: Long): Direction? {
+        return ACTIONS[playerId]
+    }
+
+    fun clearMapAndAction(match: RunningMatch) {
+        match.players.forEach { ACTIONS.remove(it) }
+        MAPS.remove(match.id)
     }
 }

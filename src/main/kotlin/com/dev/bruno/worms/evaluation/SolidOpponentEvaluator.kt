@@ -1,16 +1,16 @@
-package com.dev.bruno.worms.services.evaluation
+package com.dev.bruno.worms.evaluation
 
-import com.dev.bruno.worms.domain.PlayerRoundStatus
-import com.dev.bruno.worms.dto.MatchMap
+import com.dev.bruno.worms.domain.MatchPlayerStatus
+import com.dev.bruno.worms.dto.Map
 import com.dev.bruno.worms.dto.RunningMatch
 
 class SolidOpponentEvaluator : Evaluator() {
 
     override fun doEvaluation(runningMatch: RunningMatch,
-                              lastMap: MatchMap?,
-                              currentMap: MatchMap) {
+                              lastMap: Map?,
+                              currentMap: Map) {
         val stillPlaying = currentMap.players.filter {
-            it.status == PlayerRoundStatus.PLAYING
+            it.status == MatchPlayerStatus.PLAYING
         }
 
         stillPlaying.forEach { player ->
@@ -26,7 +26,7 @@ class SolidOpponentEvaluator : Evaluator() {
                     }.toHashSet()
 
             if (allOtherPoints.contains(lastPoint)) {
-                player.status = PlayerRoundStatus.DEAD
+                player.status = MatchPlayerStatus.DEAD
             }
         }
     }

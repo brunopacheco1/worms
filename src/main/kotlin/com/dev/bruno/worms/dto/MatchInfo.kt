@@ -12,5 +12,5 @@ data class MatchInfo(
         var playMode: PlayMode,
         var numberOfPlayers: Int,
         var mapSize: Int,
-        var players: List<PlayerInfo>
+        var players: List<MatchPlayerInfo>
 )

@@ -2,7 +2,7 @@ package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.domain.MatchStatus
-import com.dev.bruno.worms.domain.PlayerMatch
+import com.dev.bruno.worms.domain.MatchPlayer
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
@@ -13,7 +13,7 @@ import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.helpers.asMatch
 import com.dev.bruno.worms.helpers.asMatchInfo
 import com.dev.bruno.worms.repositories.MatchRepository
-import com.dev.bruno.worms.repositories.PlayerMatchRepository
+import com.dev.bruno.worms.repositories.MatchPlayerRepository
 import com.dev.bruno.worms.repositories.PlayerRepository
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -22,8 +22,8 @@ import javax.inject.Inject
 class MatchService @Inject constructor(
         val playerRepository: PlayerRepository,
         val matchRepository: MatchRepository,
-        val playerMatchRepository: PlayerMatchRepository,
-        val roundService: RoundService
+        val matchPlayerRepository: MatchPlayerRepository,
+        val matchEvaluationService: MatchEvaluationService
 ) {
 
     fun addMatch(newMatch: NewMatch): MatchInfo {
@@ -37,7 +37,7 @@ class MatchService @Inject constructor(
             return match.asMatchInfo()
         }
         addPlayerIntoMatch(newMatchPlayer, match)
-        roundService.startMatchIfItIsReady(match)
+        matchEvaluationService.startMatchIfItIsReady(match)
         return match.asMatchInfo()
     }
 
@@ -52,8 +52,8 @@ class MatchService @Inject constructor(
         }
         val player = playerRepository.get(newMatchPlayer.playerId)
         player ?: throw PlayerNotFoundException()
-        val playerMatch = PlayerMatch(player, match)
-        playerMatchRepository.save(playerMatch)
+        val playerMatch = MatchPlayer(player, match)
+        matchPlayerRepository.save(playerMatch)
     }
 
     private fun getMatch(id: Long): Match {
