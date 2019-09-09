@@ -9,3 +9,9 @@ services:
       POSTGRES_USER: worms
       POSTGRES_PASSWORD: worms
       POSTGRES_DB: worms
+  worms:
+    image: brunopacheco1/worms:native
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_JDBC: jdbc:postgresql://localhost:5555/worms 

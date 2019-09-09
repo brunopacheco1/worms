@@ -5,7 +5,7 @@ import com.dev.bruno.worms.dto.MapPoint
 import com.dev.bruno.worms.dto.Map
 import com.dev.bruno.worms.dto.RunningMatch
 
-class BasicInitializerEvaluator : Evaluator() {
+class InitializerEvaluator : Evaluator() {
 
     private val initialWormSize = 2
 
