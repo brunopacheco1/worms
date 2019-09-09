@@ -4,7 +4,7 @@ import com.dev.bruno.worms.domain.Match
 import com.dev.bruno.worms.domain.MatchPlayer
 import com.dev.bruno.worms.domain.Player
 import com.dev.bruno.worms.dto.*
-import com.dev.bruno.worms.dto.Map
+import com.dev.bruno.worms.dto.MatchMap
 
 fun NewPlayer.asPlayer() = Player(nickname)
 
@@ -48,10 +48,10 @@ fun Match.asRunningMatch() = RunningMatch(
         players.map { it.player.id!! }.toList()
 )
 
-fun RunningMatch.asMatchMap() = Map(
+fun RunningMatch.asMatchMap() = MatchMap(
         id,
         0,
         mapSize,
-        players.map { MapPlayer(it) }.toMutableList(),
+        players.map { MatchMapPlayer(it) }.toMutableList(),
         MapPoint(0, 0)
 )

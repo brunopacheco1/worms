@@ -1,22 +1,12 @@
-package com.dev.bruno.worms.rest
+package com.dev.bruno.worms.evaluation
 
-import com.dev.bruno.worms.domain.Difficulty
-import com.dev.bruno.worms.domain.OpponentBody
-import com.dev.bruno.worms.domain.PlayMode
-import com.dev.bruno.worms.domain.Wall
-import com.dev.bruno.worms.dto.NewMatch
-import com.dev.bruno.worms.dto.NewMatchPlayer
-import com.dev.bruno.worms.exceptions.MaximumPlayersException
-import com.dev.bruno.worms.helpers.toJson
-import io.quarkus.test.junit.QuarkusTest
-import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
-import io.undertow.util.StatusCodes
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
+import com.dev.bruno.worms.domain.*
+import com.dev.bruno.worms.dto.MapPoint
+import com.dev.bruno.worms.dto.MatchMap
+import com.dev.bruno.worms.dto.MatchMapPlayer
+import com.dev.bruno.worms.dto.RunningMatch
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 
 class PlayerPositionEvaluatorTest {
 
@@ -24,27 +14,159 @@ class PlayerPositionEvaluatorTest {
 
     @Test
     fun should_do_nothing_when_last_map_is_null() {
-	    val match = RunningMatch()
-	    val actualValue = Map()
-	    val expectedValue = Map()
-	    objectUnderTest.evaluate(match, null, actualValue)
-	    assertThat(map).equalsRecursivily(expectedValue)
+        val match = RunningMatch(
+                0,
+                Wall.SOLID,
+                OpponentBody.SOLID,
+                Difficulty.EASY,
+                PlayMode.SURVIVAL,
+                10,
+                arrayListOf(1)
+        )
+        val actualValue = MatchMap(
+                0,
+                1,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(5, 5),
+                MatchStatus.RUNNING
+        )
+        val expectedValue = MatchMap(
+                0,
+                1,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(5, 5),
+                MatchStatus.RUNNING
+        )
+        objectUnderTest.evaluate(match, null, actualValue)
+        Assertions.assertEquals(expectedValue, actualValue)
     }
 
     @Test
-    fun should_update_players_positions() {                                                  val match = RunningMatch()
-            val lastMap = Map()
-            val actualValue = Map()
-            val expectedValue = Map()
-            objectUnderTest.evaluate(match, lastMap, actualValue)
-            assertThat(map).equalsRecursivily(expectedValue)
+    fun should_update_players_positions() {
+        val match = RunningMatch(
+                0,
+                Wall.SOLID,
+                OpponentBody.SOLID,
+                Difficulty.EASY,
+                PlayMode.SURVIVAL,
+                10,
+                arrayListOf(1)
+        )
+        val lastMap = MatchMap(
+                0,
+                1,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(5, 5),
+                MatchStatus.RUNNING
+        )
+        val actualValue = MatchMap(
+                0,
+                2,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(5, 5),
+                MatchStatus.RUNNING
+        )
+        val expectedValue = MatchMap(
+                0,
+                2,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 1), MapPoint(0, 2)))
+                ),
+                MapPoint(5, 5),
+                MatchStatus.RUNNING
+        )
+        objectUnderTest.evaluate(match, lastMap, actualValue)
+        Assertions.assertEquals(expectedValue, actualValue)
     }
 
-    @Test                                                                            fun should_increase_player_length_when_last_point_is_equal_food() {                      val match = RunningMatch()
-            val lastMap = Map()
-            val actualValue = Map()
-            val expectedValue = Map()
-            objectUnderTest.evaluate(match, lastMap, actualValue)
-            assertThat(map).equalsRecursivily(expectedValue)                         }
+    @Test
+    fun should_increase_player_length_when_last_point_is_equal_food() {
+        val match = RunningMatch(
+                0,
+                Wall.SOLID,
+                OpponentBody.SOLID,
+                Difficulty.EASY,
+                PlayMode.SURVIVAL,
+                10,
+                arrayListOf(1)
+        )
+        val lastMap = MatchMap(
+                0,
+                1,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(0, 2),
+                MatchStatus.RUNNING
+        )
+        val actualValue = MatchMap(
+                0,
+                2,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        2,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1)))
+                ),
+                MapPoint(0, 2),
+                MatchStatus.RUNNING
+        )
+        val expectedValue = MatchMap(
+                0,
+                2,
+                10,
+                arrayListOf(MatchMapPlayer(
+                        1,
+                        MatchPlayerStatus.PLAYING,
+                        3,
+                        Direction.UP,
+                        arrayListOf(MapPoint(0, 0), MapPoint(0, 1), MapPoint(0, 2)))
+                ),
+                MapPoint(0, 2),
+                MatchStatus.RUNNING
+        )
+        objectUnderTest.evaluate(match, lastMap, actualValue)
+        Assertions.assertEquals(expectedValue, actualValue)
+    }
 
 }

@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test
 @QuarkusTest
 open class MatchEvaluationResourceTest {
 
-    private val matchId = 1
-
     @Test
     fun given_new_player_action_and_not_started_match_when_post_then_throw_exception() {
         val playerAction = PlayerAction(
@@ -23,7 +21,7 @@ open class MatchEvaluationResourceTest {
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().put("/v1/match/{matchId}/rounds", matchId)
+                .`when`().put("/v1/match/rounds")
                 .then()
                 .statusCode(MatchNotStartedException().statusCode)
                 .body("message", `is`(MatchNotStartedException().message))

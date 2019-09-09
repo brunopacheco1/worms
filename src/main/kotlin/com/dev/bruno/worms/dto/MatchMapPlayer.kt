@@ -4,7 +4,7 @@ import com.dev.bruno.worms.domain.Direction
 import com.dev.bruno.worms.domain.MatchPlayerStatus
 
 @Dto
-data class MapPlayer(
+data class MatchMapPlayer(
         var playerId: Long,
         var status: MatchPlayerStatus = MatchPlayerStatus.PLAYING,
         var wormLength: Int = 0,

@@ -1,7 +1,7 @@
 package com.dev.bruno.worms.services
 
 import com.dev.bruno.worms.domain.Direction
-import com.dev.bruno.worms.dto.Map
+import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.dto.RunningMatch
 import com.google.common.collect.Maps
@@ -12,18 +12,18 @@ object MatchPool {
     private val ACTIONS: ConcurrentMap<Long, Direction> =
             Maps.newConcurrentMap()
 
-    private val MAPS: ConcurrentMap<Long, Map> =
+    private val MAPS: ConcurrentMap<Long, MatchMap> =
             Maps.newConcurrentMap()
 
     fun addAction(playerAction: PlayerAction) {
         ACTIONS[playerAction.playerId] = playerAction.direction
     }
 
-    fun getLastMap(matchId: Long): Map? {
+    fun getLastMap(matchId: Long): MatchMap? {
         return MAPS[matchId]
     }
 
-    fun addMap(map: Map) {
+    fun addMap(map: MatchMap) {
         this.MAPS[map.matchId] = map
     }
 

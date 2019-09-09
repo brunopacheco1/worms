@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.evaluation
 
-import com.dev.bruno.worms.dto.Map
+import com.dev.bruno.worms.dto.MatchMap
 import com.dev.bruno.worms.dto.RunningMatch
 
 abstract class Evaluator {
@@ -13,12 +13,12 @@ abstract class Evaluator {
     }
 
     abstract fun doEvaluation(runningMatch: RunningMatch,
-                              lastMap: Map?,
-                              currentMap: Map)
+                              lastMap: MatchMap?,
+                              currentMap: MatchMap)
 
     fun evaluate(runningMatch: RunningMatch,
-                 lastMap: Map?,
-                 currentMap: Map) {
+                 lastMap: MatchMap?,
+                 currentMap: MatchMap) {
         doEvaluation(runningMatch, lastMap, currentMap)
         next?.evaluate(runningMatch, lastMap, currentMap)
     }
