@@ -2,16 +2,16 @@ package com.dev.bruno.worms.evaluation
 
 import com.dev.bruno.worms.domain.*
 import com.dev.bruno.worms.dto.*
-import com.dev.bruno.worms.helpers.asMatchMap
 import com.dev.bruno.worms.services.MatchPool
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class DirectionEvaluatorTest {
 
     private val objectUnderTest: Evaluator = DirectionEvaluator()
 
     @Test
+    @Order(1)
     fun should_keep_direction_if_none_was_found_in_the_pool() {
         val match = RunningMatch(
                 0,
@@ -55,6 +55,7 @@ class DirectionEvaluatorTest {
     }
 
     @Test
+    @Order(2)
     fun should_get_new_direction_if_it_was_found_in_the_pool() {
         MatchPool.addAction(PlayerAction(1, Direction.LEFT))
         val match = RunningMatch(
@@ -99,6 +100,7 @@ class DirectionEvaluatorTest {
     }
 
     @Test
+    @Order(3)
     fun should_not_accept_opposite_direction() {
         MatchPool.addAction(PlayerAction(1, Direction.DOWN))
         val match = RunningMatch(

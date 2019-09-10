@@ -80,6 +80,8 @@ class MatchEvaluationService @Inject constructor(
         return Consumer { periodicId ->
             val evaluator = MatchEvaluatorFactory.getEvaluator(match)
             val currentMap = evaluator.evaluate(match)
+            MatchPool.setLastMap(currentMap)
+            println(currentMap.toJson())
             vertx.eventBus().publish("match-${match.id}", currentMap.toJson())
             if (currentMap.status == MatchStatus.FINISHED) {
                 vertx.eventBus().send<String>("finishing-match", match.toJson())

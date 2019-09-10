@@ -28,7 +28,7 @@ class FakeDataCommandRunner {
         playerRepository.save(player1)
         playerRepository.save(player2)
 
-        val match = Match(
+        val runnningMatch = Match(
                 Wall.SOLID,
                 OpponentBody.SOLID,
                 Difficulty.EASY,
@@ -36,10 +36,20 @@ class FakeDataCommandRunner {
                 1,
                 30
         )
-        match.status = MatchStatus.RUNNING
+        runnningMatch.status = MatchStatus.RUNNING
 
-        matchRepository.save(match)
+        matchRepository.save(runnningMatch)
 
-        matchPlayerRepository.save(MatchPlayer(player1, match))
+        matchPlayerRepository.save(MatchPlayer(player1, runnningMatch))
+
+        val notStartedMatch = Match(
+                Wall.SOLID,
+                OpponentBody.SOLID,
+                Difficulty.EASY,
+                PlayMode.SURVIVAL,
+                1,
+                30
+        )
+        matchRepository.save(notStartedMatch)
     }
 }

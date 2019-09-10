@@ -16,8 +16,9 @@ class MatchEvaluationResource @Inject constructor(
 ) {
 
     @PUT
-    @Path("/rounds")
+    @Path("/{id}/rounds")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     fun movingPlayer(@PathParam("id") id: Long,
                      playerAction: PlayerAction): Response {
         matchEvaluationService.addAction(id, playerAction)

@@ -4,7 +4,7 @@ import com.dev.bruno.worms.dto.RunningMatch
 
 object MatchEvaluatorFactory {
 
-    fun getEvaluator(match: RunningMatch): RoundEvaluator {
+    fun getEvaluator(match: RunningMatch): MatchEvaluator {
         val evaluator = InitializerEvaluator()
         evaluator.link(DirectionEvaluator())
                 .link(PlayerPositionEvaluator())
@@ -13,7 +13,6 @@ object MatchEvaluatorFactory {
                 .link(MatchStatusEvaluator())
                 .link(NewFoodLocationEvaluator())
                 .link(match.playMode.getEvaluator())
-                .link(FinishingRoundEvaluator())
-        return RoundEvaluator(evaluator)
+        return MatchEvaluator(evaluator)
     }
 }

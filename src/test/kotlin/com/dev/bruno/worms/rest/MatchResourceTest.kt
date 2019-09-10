@@ -6,6 +6,8 @@ import com.dev.bruno.worms.domain.PlayMode
 import com.dev.bruno.worms.domain.Wall
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.exceptions.MatchNotStartedException
+import com.dev.bruno.worms.exceptions.MatchRunningException
 import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
@@ -31,7 +33,7 @@ open class MatchResourceTest {
             30
     )
 
-    private val newMatchId = 2
+    private val newMatchId = 3
     private val existingMatchId = 1
     private val newPlayerId1 = 1
     private val newPlayerId2 = 2
@@ -73,14 +75,14 @@ open class MatchResourceTest {
 
     @Test
     @Order(3)
-    fun given_another_new_match_player_and_match_id_when_post_then_throw_exception() {
+    fun given_new_match_player_and_running_match_when_post_then_throw_running_match_exception() {
         val newMatchPlayer = NewMatchPlayer(newPlayerId2.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().put("/v1/match/{matchId}/players", newMatchId)
+                .`when`().put("/v1/match/{matchId}/players", existingMatchId)
                 .then()
-                .statusCode(MaximumPlayersException().statusCode)
-                .body("message", `is`(MaximumPlayersException().message))
+                .statusCode(MatchRunningException().statusCode)
+                .body("message", `is`(MatchRunningException().message))
     }
 
     @Test
@@ -90,15 +92,14 @@ open class MatchResourceTest {
                 .`when`().get("/v1/match")
                 .then()
                 .statusCode(StatusCodes.OK)
-                .body("[0].id", `is`(existingMatchId),
-                        "[1].id", `is`(newMatchId),
-                        "[1].wall", `is`(newMatch.wall.name),
-                        "[1].opponentBody", `is`(newMatch.opponentBody.name),
-                        "[1].difficulty", `is`(newMatch.difficulty.name),
-                        "[1].playMode", `is`(newMatch.playMode.name),
-                        "[1].numberOfPlayers", `is`(newMatch.numberOfPlayers),
-                        "[1].mapSize", `is`(newMatch.mapSize),
-                        "[1].players[0].id", `is`(newPlayerId1))
+                .body("[2].id", `is`(newMatchId),
+                        "[2].wall", `is`(newMatch.wall.name),
+                        "[2].opponentBody", `is`(newMatch.opponentBody.name),
+                        "[2].difficulty", `is`(newMatch.difficulty.name),
+                        "[2].playMode", `is`(newMatch.playMode.name),
+                        "[2].numberOfPlayers", `is`(newMatch.numberOfPlayers),
+                        "[2].mapSize", `is`(newMatch.mapSize),
+                        "[2].players[0].id", `is`(newPlayerId1))
     }
 
     @Test

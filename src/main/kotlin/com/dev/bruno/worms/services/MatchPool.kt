@@ -23,7 +23,7 @@ object MatchPool {
         return MAPS[matchId]
     }
 
-    fun addMap(map: MatchMap) {
+    fun setLastMap(map: MatchMap) {
         this.MAPS[map.matchId] = map
     }
 

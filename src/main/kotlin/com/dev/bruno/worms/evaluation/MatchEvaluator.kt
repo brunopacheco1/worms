@@ -5,7 +5,7 @@ import com.dev.bruno.worms.dto.RunningMatch
 import com.dev.bruno.worms.helpers.asMatchMap
 import com.dev.bruno.worms.services.MatchPool
 
-class RoundEvaluator(
+class MatchEvaluator(
         val evaluator: Evaluator
 ) {
 

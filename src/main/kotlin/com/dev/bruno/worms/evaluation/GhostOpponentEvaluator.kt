@@ -15,7 +15,7 @@ class GhostOpponentEvaluator : Evaluator() {
 
         stillPlaying.forEach { player ->
             val lastPoint = player.position.last()
-            val allOtherPoints = player.position.toHashSet()
+            val allOtherPoints = player.position.subList(0, player.position.size - 1).toHashSet()
 
             if (allOtherPoints.contains(lastPoint)) {
                 player.status = MatchPlayerStatus.DEAD
