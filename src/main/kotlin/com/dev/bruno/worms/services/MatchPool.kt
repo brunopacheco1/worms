@@ -35,4 +35,9 @@ object MatchPool {
         match.players.forEach { ACTIONS.remove(it) }
         MAPS.remove(match.id)
     }
+
+    fun clear() {
+        ACTIONS.clear()
+        MAPS.clear()
+    }
 }

@@ -30,4 +30,6 @@ docker run --network="host" -i --rm -p 5000:5000 brunopacheco1/worms:native
 2019-08-24 - Now I can move forward with the business implementation, adding new endpoints and improving different areas of the code;\
 2019-08-30 - I have used chain of responsibility to organize better the code of Round Evaluation;\
 2019-08-31 - Refactoring and reviewing the domain, to include the match configuration in the round evaluator and to be clearer to understand;\
-2019-09-08 - Implementing Vert.x in order to add some async features, for server sent events and periodic tasks, a bit complex because somehow there are a lot of implementations and Quarkus is supporting many of them, but manageable, I had to find the one which was working properly (after some hour failing).
+2019-09-08 - Implementing Vert.x in order to add some async features, for server sent events and periodic tasks, a bit complex because somehow there are a lot of implementations and Quarkus is supporting many of them, but manageable, I had to find the one which was working properly (after some hour failing);\
+2019-09-10 - I managed to fix the integration and to add unit test for the core features. Now I have to work on a interface;\
+2019-09-10 - I am adding H2 back as I am developing on my mobile (my little daughter has arrived and I have to use the moment that I can have). Docker is not working correctly on Termux.
