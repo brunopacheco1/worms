@@ -3,17 +3,13 @@ Playground for Quarkus and GraalVM.
 
 ## Building the app
 ```
-mvn clean package
-mvn clean package -Pnative -Dnative-image.docker-build=true
+mvn clean package -Dquarkus.profile=prod
+mvn clean package -Pnative -Dnative-image.docker-build=true -Dquarkus.profile=prod
 ```
 ## Building the docker image
 ```
 docker build -f src/main/docker/Dockerfile.jvm -t "brunopacheco1/worms:jvm" .
 docker build -f src/main/docker/Dockerfile.native -t "brunopacheco1/worms:native" .
-```
-## Running the DB
-```
-docker run --name worms-postgres -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=worms -e POSTGRES_DB=worms -p 5555:5432 -d postgres
 ```
 ## Running the app
 ```

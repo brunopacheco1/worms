@@ -5,10 +5,8 @@ cache:
     - $HOME/.m2
 services:
   - docker
-before_script:
-  - docker run --name worms-postgres --rm -e POSTGRES_USER=worms -e POSTGRES_PASSWORD=mysecret -e POSTGRES_DB=worms -p 5555:5432 -d postgres
 script:
-  - mvn clean package
+  - mvn clean package -Dquarkus.profile=prod
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker build -f src/main/docker/Dockerfile.jvm -t "$DOCKER_USERNAME/worms:jvm" .;
     else
