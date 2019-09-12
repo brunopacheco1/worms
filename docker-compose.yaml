@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   database:
@@ -11,3 +11,5 @@ services:
     image: brunopacheco1/worms:native
     ports:
       - "5000:5000"
+    depends_on:
+      - database
