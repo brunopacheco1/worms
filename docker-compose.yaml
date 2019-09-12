@@ -11,5 +11,8 @@ services:
     image: brunopacheco1/worms:native
     ports:
       - "5000:5000"
+    restart: on-failure
     depends_on:
+      - database
+    links:
       - database
