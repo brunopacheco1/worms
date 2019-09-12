@@ -13,5 +13,129 @@
         "allowWrite": true
       }
     ]
+  },
+  {
+    "name": "com.dev.bruno.worms.dto.MapPoint",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredClasses": true,
+    "allPublicClasses": true,
+    "fields": [
+      {
+        "name": "x",
+        "allowWrite": true
+      },
+      {
+        "name": "y",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "com.dev.bruno.worms.dto.MatchMapPlayer",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredClasses": true,
+    "allPublicClasses": true,
+    "fields": [
+      {
+        "name": "playerId",
+        "allowWrite": true
+      },
+      {
+        "name": "status",
+        "allowWrite": true
+      },
+      {
+        "name": "wormLength",
+        "allowWrite": true
+      },
+      {
+        "name": "direction",
+        "allowWrite": true
+      },
+      {
+        "name": "position",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "com.dev.bruno.worms.dto.MatchMap",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredClasses": true,
+    "allPublicClasses": true,
+    "fields": [
+      {
+        "name": "matchId",
+        "allowWrite": true
+      },
+      {
+        "name": "roundCounter",
+        "allowWrite": true
+      },
+      {
+        "name": "mapSize",
+        "allowWrite": true
+      },
+      {
+        "name": "players",
+        "allowWrite": true
+      },
+      {
+        "name": "foodPosition",
+        "allowWrite": true
+      },
+      {
+        "name": "status",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "com.dev.bruno.worms.dto.RunningMatch",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredClasses": true,
+    "allPublicClasses": true,
+    "fields": [
+      {
+        "name": "id",
+        "allowWrite": true
+      },
+      {
+        "name": "wall",
+        "allowWrite": true
+      },
+      {
+        "name": "opponentBody",
+        "allowWrite": true
+      },
+      {
+        "name": "difficulty",
+        "allowWrite": true
+      },
+      {
+        "name": "playMode",
+        "allowWrite": true
+      },
+      {
+        "name": "mapSize",
+        "allowWrite": true
+      },
+      {
+        "name": "players",
+        "allowWrite": true
+      }
+    ]
   }
 ]

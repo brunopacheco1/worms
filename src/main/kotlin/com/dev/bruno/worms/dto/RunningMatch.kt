@@ -4,11 +4,11 @@ import com.dev.bruno.worms.domain.*
 
 @Dto
 data class RunningMatch(
-        val id: Long,
+        var id: Long,
         var wall: Wall,
         var opponentBody: OpponentBody,
         var difficulty: Difficulty,
         var playMode: PlayMode,
         var mapSize: Int,
-        val players: List<Long>
+        var players: List<Long>
 )
