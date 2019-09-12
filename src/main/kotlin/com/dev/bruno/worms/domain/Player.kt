@@ -4,8 +4,9 @@ import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.OneToMany
 
-@Entity
+@Entity("PLAYER")
 data class Player(
+	@Field("nickname")
 	var nickname: String
 ) : Persistable<Long>() {
 
