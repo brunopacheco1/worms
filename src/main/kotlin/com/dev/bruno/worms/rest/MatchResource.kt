@@ -33,8 +33,8 @@ class MatchResource @Inject constructor(
     @POST
     @Path("/players")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
-        return matchService.addPlayerIntoRandomMatch(newMatchPlayer)
+    fun addPlayerIntoUnknownMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
+        return matchService.addPlayerIntoUnknownMatch(newMatchPlayer)
     }
 
     @GET

@@ -1,8 +1,6 @@
 package com.dev.bruno.worms.services
 
-import com.dev.bruno.worms.domain.Match
-import com.dev.bruno.worms.domain.MatchStatus
-import com.dev.bruno.worms.domain.MatchPlayer
+import com.dev.bruno.worms.domain.*
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
@@ -12,8 +10,8 @@ import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.helpers.asMatch
 import com.dev.bruno.worms.helpers.asMatchInfo
-import com.dev.bruno.worms.repositories.MatchRepository
 import com.dev.bruno.worms.repositories.MatchPlayerRepository
+import com.dev.bruno.worms.repositories.MatchRepository
 import com.dev.bruno.worms.repositories.PlayerRepository
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -30,23 +28,39 @@ class MatchService @Inject constructor(
         return matchRepository.save(newMatch.asMatch()).asMatchInfo()
     }
 
+
     fun addPlayerIntoMatch(matchId: Long,
                            newMatchPlayer: NewMatchPlayer): MatchInfo {
         val match = getMatch(matchId)
-        if (match.players.any { it.player.id == newMatchPlayer.playerId }) {
-            return match.asMatchInfo()
-        }
-        addPlayerIntoMatch(newMatchPlayer, match)
-        matchEvaluationService.startMatchIfItIsReady(match)
-        return match.asMatchInfo()
+        return addPlayerIntoMatch(newMatchPlayer, match)
     }
 
-    fun addPlayerIntoRandomMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
-        TODO("Not implemented yet")
+    fun addPlayerIntoUnknownMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
+        var notStartedMatch = matchRepository.findNotStartedMatch()
+        if (notStartedMatch == null) {
+            notStartedMatch = buildAndSaveNewMatch()
+        }
+        return addPlayerIntoMatch(newMatchPlayer, notStartedMatch)
+    }
+
+    private fun buildAndSaveNewMatch(): Match {
+        val match = Match(
+                Wall.SOLID,
+                OpponentBody.SOLID,
+                Difficulty.MEDIUM,
+                PlayMode.SURVIVAL,
+                4,
+                100
+        )
+        matchRepository.save(match)
+        return match
     }
 
     private fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer,
-                                   match: Match) {
+                                   match: Match): MatchInfo {
+        if (match.players.any { it.player.id == newMatchPlayer.playerId }) {
+            return match.asMatchInfo()
+        }
         if (match.numberOfPlayers == match.players.size) {
             throw MaximumPlayersException()
         }
@@ -54,6 +68,8 @@ class MatchService @Inject constructor(
         player ?: throw PlayerNotFoundException()
         val playerMatch = MatchPlayer(player, match)
         matchPlayerRepository.save(playerMatch)
+        matchEvaluationService.startMatchIfItIsReady(match)
+        return match.asMatchInfo()
     }
 
     private fun getMatch(id: Long): Match {
