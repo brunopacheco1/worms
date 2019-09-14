@@ -28,7 +28,7 @@ open class PlayerResourceTest {
                 .`when`().post("/v1/player/")
                 .then()
                 .statusCode(StatusCodes.OK)
-                .body("id", notNullValue(),
+                .body("id", `is`(3),
                         "nickname", `is`(newPlayer.nickname))
     }
 
@@ -41,5 +41,16 @@ open class PlayerResourceTest {
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(existingPlayerId),
                         "nickname", `is`(existingPlayerNickname))
+    }
+
+    @Test
+    @Order(3)
+    fun given_existing_nickname_when_post_then_return_existing_player_info() {
+        given().contentType(ContentType.JSON).body(newPlayer.toJson())
+                .`when`().post("/v1/player/")
+                .then()
+                .statusCode(StatusCodes.OK)
+                .body("id", `is`(3),
+                        "nickname", `is`(newPlayer.nickname))
     }
 }

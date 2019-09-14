@@ -15,13 +15,17 @@ class PlayerService @Inject constructor(
 ) {
 
     fun add(newPlayer: NewPlayer): PlayerInfo {
-	val player = playerRepository.save(newPlayer.asPlayer())
-	return player.asPlayerInfo()
+        val player = playerRepository.findByNickname(newPlayer.nickname)
+        if (player != null) {
+            return player.asPlayerInfo()
+        }
+        val addedPlayer = playerRepository.save(newPlayer.asPlayer())
+        return addedPlayer.asPlayerInfo()
     }
 
     fun getPlayer(id: Long): PlayerInfo {
         val player = playerRepository.get(id)
-	player ?: throw PlayerNotFoundException()
+        player ?: throw PlayerNotFoundException()
         return player.asPlayerInfo()
     }
 }

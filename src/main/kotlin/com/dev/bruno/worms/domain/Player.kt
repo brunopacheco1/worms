@@ -7,7 +7,7 @@ import javax.persistence.OneToMany
 
 @Entity(name = "PLAYER")
 data class Player(
-        @Column(name = "nickname")
+        @Column(name = "nickname", nullable = false, unique = true)
         var nickname: String
 ) : Persistable<Long>() {
 
