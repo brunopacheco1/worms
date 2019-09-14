@@ -32,11 +32,7 @@ class MatchEvaluationService @Inject constructor(
 ) {
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
-        validateMatchAndPlayer(matchId, playerAction.playerId)
-        MatchPool.addAction(playerAction)
-    }
-
-    private fun validateMatch(match: Match?) {
+        val match = matchRepository.get(matchId)
         match ?: throw MatchNotFoundException()
         if (match.status == MatchStatus.WAITING_PLAYERS) {
             throw MatchNotStartedException()
@@ -44,14 +40,10 @@ class MatchEvaluationService @Inject constructor(
         if (match.status == MatchStatus.FINISHED) {
             throw MatchFinishedException()
         }
-    }
-
-    private fun validateMatchAndPlayer(matchId: Long, playerId: Long) {
-        val match = matchRepository.get(matchId)
-        validateMatch(match)
-        if (!hasPlayer(match, playerId)) {
+        if (!hasPlayer(match, playerAction.playerId)) {
             throw PlayerNotFoundException()
         }
+        MatchPool.addAction(playerAction)
     }
 
     private fun hasPlayer(match: Match?, playerId: Long): Boolean {
@@ -92,7 +84,10 @@ class MatchEvaluationService @Inject constructor(
 
     fun streamingMatchMap(matchId: Long): Publisher<String> {
         val match = matchRepository.get(matchId)
-        validateMatch(match)
+        match ?: throw MatchNotFoundException()
+        if (match.status == MatchStatus.FINISHED) {
+            throw MatchFinishedException()
+        }
         return vertx.eventBus().consumer<String>("match-$matchId").bodyStream().toPublisher()
     }
 
