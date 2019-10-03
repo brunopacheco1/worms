@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-card>
+    <div fxFlexFill fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>Nickname</mat-label>
+        <input
+          matInput
+          placeholder="Insert your nickname here"
+          [(ngModel)]="nickname"
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="createUser()">
+        Start
+      </button>
+    </div>
+  </mat-card>
+</div>
