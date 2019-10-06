@@ -8,12 +8,13 @@ import { MatInputModule, MatCardModule } from "@angular/material";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { MainComponent } from "./main/main.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { LoginComponent } from "./components/login/login.component";
+import { StartMatchComponent } from './components/start-match/start-match.component';
 
 @NgModule({
-  declarations: [AppComponent, MainComponent],
+  declarations: [AppComponent, LoginComponent, StartMatchComponent],
   imports: [
     FlexLayoutModule,
     MatInputModule,
