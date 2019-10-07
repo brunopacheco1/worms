@@ -11,7 +11,7 @@ import { AuthService } from "src/app/services/auth.service";
 export class LoginComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
-  nickname: string = "";
+  nickname = "";
 
   ngOnInit() {}
 

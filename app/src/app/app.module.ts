@@ -12,9 +12,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./components/login/login.component";
 import { StartMatchComponent } from './components/start-match/start-match.component';
+import { MatchComponent } from './components/match/match.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, StartMatchComponent],
+  declarations: [AppComponent, LoginComponent, StartMatchComponent, MatchComponent],
   imports: [
     FlexLayoutModule,
     MatInputModule,
