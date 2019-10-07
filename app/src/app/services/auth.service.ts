@@ -14,21 +14,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(nickname: string): Observable<Player> {
+  login(nickname: string) {
     const newPlayer: NewPlayer = { nickname };
     console.log(newPlayer);
-    return this.http
-      .post<Player>("http://localhost:5000/v1/player", newPlayer)
-      .pipe(
-        tap(player => {
-          localStorage.setItem(
-            AuthService.PLAYER_FIELD,
-            JSON.stringify(player)
-          );
-          this.router.navigate(["start-match"]);
-          return player;
-        })
-      );
+    this.http.post<Player>("/api/v1/player", newPlayer).subscribe(player => {
+      localStorage.setItem(AuthService.PLAYER_FIELD, JSON.stringify(player));
+      this.router.navigate(["start-match"]);
+      return player;
+    });
   }
 
   logout() {

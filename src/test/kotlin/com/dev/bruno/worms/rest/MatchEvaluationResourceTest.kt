@@ -23,7 +23,7 @@ open class MatchEvaluationResourceTest {
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().put("/v1/match/1/rounds")
+                .`when`().put("/api/v1/match/1/rounds")
                 .then()
                 .statusCode(StatusCodes.ACCEPTED)
     }
@@ -36,7 +36,7 @@ open class MatchEvaluationResourceTest {
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().put("/v1/match/22222/rounds")
+                .`when`().put("/api/v1/match/22222/rounds")
                 .then()
                 .statusCode(MatchNotFoundException().statusCode)
                 .body("message", `is`(MatchNotFoundException().message))
@@ -50,7 +50,7 @@ open class MatchEvaluationResourceTest {
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().put("/v1/match/4/rounds")
+                .`when`().put("/api/v1/match/4/rounds")
                 .then()
                 .statusCode(MatchNotStartedException().statusCode)
                 .body("message", `is`(MatchNotStartedException().message))

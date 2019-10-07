@@ -7,7 +7,6 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -25,7 +24,7 @@ open class PlayerResourceTest {
     @Order(1)
     fun given_new_player_nickname_when_post_then_return_player_info() {
         given().contentType(ContentType.JSON).body(newPlayer.toJson())
-                .`when`().post("/v1/player/")
+                .`when`().post("/api/v1/player/")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(3),
@@ -36,7 +35,7 @@ open class PlayerResourceTest {
     @Order(2)
     fun given_player_id_when_get_then_return_player_info() {
         given()
-                .`when`().get("/v1/player/{id}", existingPlayerId)
+                .`when`().get("/api/v1/player/{id}", existingPlayerId)
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(existingPlayerId),
@@ -47,7 +46,7 @@ open class PlayerResourceTest {
     @Order(3)
     fun given_existing_nickname_when_post_then_return_existing_player_info() {
         given().contentType(ContentType.JSON).body(newPlayer.toJson())
-                .`when`().post("/v1/player/")
+                .`when`().post("/api/v1/player/")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(3),

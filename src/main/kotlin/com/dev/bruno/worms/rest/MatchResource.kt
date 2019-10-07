@@ -9,11 +9,11 @@ import javax.inject.Inject
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
-@Path("/v1/match")
+@Path("/api/v1/match")
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
 class MatchResource @Inject constructor(
-        val matchService: MatchService
+    val matchService: MatchService
 ) {
 
     @POST
@@ -25,8 +25,10 @@ class MatchResource @Inject constructor(
     @PUT
     @Path("/{id}/players")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayerIntoMatch(@PathParam("id") id: Long,
-                           newMatchPlayer: NewMatchPlayer): MatchInfo {
+    fun addPlayerIntoMatch(
+        @PathParam("id") id: Long,
+        newMatchPlayer: NewMatchPlayer
+    ): MatchInfo {
         return matchService.addPlayerIntoMatch(id, newMatchPlayer)
     }
 

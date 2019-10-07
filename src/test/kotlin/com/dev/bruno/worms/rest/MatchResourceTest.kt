@@ -6,9 +6,7 @@ import com.dev.bruno.worms.domain.PlayMode
 import com.dev.bruno.worms.domain.Wall
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
-import com.dev.bruno.worms.exceptions.MatchNotStartedException
 import com.dev.bruno.worms.exceptions.MatchRunningException
-import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.helpers.toJson
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
@@ -42,7 +40,7 @@ open class MatchResourceTest {
     @Order(1)
     fun given_new_match_when_post_then_return_match_info() {
         given().contentType(ContentType.JSON).body(newMatch.toJson())
-                .`when`().post("/v1/match")
+                .`when`().post("/api/v1/match")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
@@ -60,7 +58,7 @@ open class MatchResourceTest {
         val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().put("/v1/match/{matchId}/players", newMatchId)
+                .`when`().put("/api/v1/match/{matchId}/players", newMatchId)
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
@@ -79,7 +77,7 @@ open class MatchResourceTest {
         val newMatchPlayer = NewMatchPlayer(newPlayerId2.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().put("/v1/match/{matchId}/players", existingMatchId)
+                .`when`().put("/api/v1/match/{matchId}/players", existingMatchId)
                 .then()
                 .statusCode(MatchRunningException().statusCode)
                 .body("message", `is`(MatchRunningException().message))
@@ -89,7 +87,7 @@ open class MatchResourceTest {
     @Order(4)
     fun when_get_then_return_match_info_list() {
         given()
-                .`when`().get("/v1/match")
+                .`when`().get("/api/v1/match")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("[2].id", `is`(newMatchId),
@@ -106,7 +104,7 @@ open class MatchResourceTest {
     @Order(5)
     fun given_match_id_when_get_then_return_match_info() {
         given()
-                .`when`().get("/v1/match/{id}", newMatchId)
+                .`when`().get("/api/v1/match/{id}", newMatchId)
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(newMatchId),
@@ -125,7 +123,7 @@ open class MatchResourceTest {
         val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().post("/v1/match/players")
+                .`when`().post("/api/v1/match/players")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(2),
@@ -144,7 +142,7 @@ open class MatchResourceTest {
         val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
 
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().post("/v1/match/players")
+                .`when`().post("/api/v1/match/players")
                 .then()
                 .statusCode(StatusCodes.OK)
                 .body("id", `is`(4),
