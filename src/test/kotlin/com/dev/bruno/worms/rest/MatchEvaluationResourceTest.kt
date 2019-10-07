@@ -50,9 +50,10 @@ open class MatchEvaluationResourceTest {
         )
 
         given().contentType(ContentType.JSON).body(playerAction.toJson())
-                .`when`().put("/api/v1/match/4/rounds")
+                .`when`().put("/api/v1/match/2/rounds")
                 .then()
                 .statusCode(MatchNotStartedException().statusCode)
                 .body("message", `is`(MatchNotStartedException().message))
     }
 }
+
