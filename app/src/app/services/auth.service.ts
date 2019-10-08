@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { NewPlayer } from "../model/new-player.model";
-import { Player } from "../model/player.model";
+import { PlayerInfo } from "../model/player-info.model";
 
 @Injectable({
   providedIn: "root"
@@ -14,11 +14,13 @@ export class AuthService {
 
   login(nickname: string) {
     const newPlayer: NewPlayer = { nickname };
-    this.http.post<Player>("/api/v1/player", newPlayer).subscribe(player => {
-      localStorage.setItem(AuthService.PLAYER_FIELD, JSON.stringify(player));
-      this.router.navigate(["start-match"]);
-      return player;
-    });
+    this.http
+      .post<PlayerInfo>("/api/v1/player", newPlayer)
+      .subscribe(player => {
+        localStorage.setItem(AuthService.PLAYER_FIELD, JSON.stringify(player));
+        this.router.navigate(["start-match"]);
+        return player;
+      });
   }
 
   logout() {
@@ -30,7 +32,7 @@ export class AuthService {
     return localStorage.getItem(AuthService.PLAYER_FIELD) !== null;
   }
 
-  getPlayer(): Player {
+  getPlayer(): PlayerInfo {
     return JSON.parse(localStorage.getItem(AuthService.PLAYER_FIELD));
   }
 }

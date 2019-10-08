@@ -1,1 +1,9 @@
+<mat-toolbar color="primary">
+  <span>Worms</span>
+  <span class="example-spacer"></span>
+  <span>{{ player()?.nickname }}</span>
+  <button mat-icon-button *ngIf="isLogged()" (click)="logout()">
+    <mat-icon>power_settings_new</mat-icon>
+  </button>
+</mat-toolbar>
 <router-outlet></router-outlet>

@@ -4,6 +4,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { StartMatchComponent } from "./components/start-match/start-match.component";
 import { AuthNotLoggedInService } from "./services/auth-not-logged-in.service";
 import { AuthLoggedInService } from "./services/auth-logged-in.service";
+import { MatchComponent } from "./components/match/match.component";
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
   {
     path: "start-match",
     component: StartMatchComponent,
+    canActivate: [AuthNotLoggedInService]
+  },
+  {
+    path: "match",
+    component: MatchComponent,
     canActivate: [AuthNotLoggedInService]
   }
 ];

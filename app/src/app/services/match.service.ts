@@ -1,17 +1,20 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { HttpClient } from "@angular/common/http";
 import { NewMatchPlayer } from "../model/new-match-player.model";
 import { MatchInfo } from "../model/match-info.model";
 import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { MatchMap } from "../model/ match-map.model";
 
 @Injectable({
   providedIn: "root"
 })
 export class MatchService {
-  private static CURRENT_PLAYER_FIELD = "CURRENT_MATCH";
+  private static CURRENT_MATCH_FIELD = "CURRENT_MATCH";
 
   constructor(
+    private zone: NgZone,
     private http: HttpClient,
     private router: Router,
     private authService: AuthService
@@ -24,7 +27,7 @@ export class MatchService {
       .post<MatchInfo>("/api/v1/match/players", playerMatch)
       .subscribe(matchInfo => {
         localStorage.setItem(
-          MatchService.CURRENT_PLAYER_FIELD,
+          MatchService.CURRENT_MATCH_FIELD,
           JSON.stringify(matchInfo)
         );
         this.router.navigate(["match"]);
@@ -38,7 +41,7 @@ export class MatchService {
       .post<MatchInfo>("/api/v1/match/players", playerMatch)
       .subscribe(matchInfo => {
         localStorage.setItem(
-          MatchService.CURRENT_PLAYER_FIELD,
+          MatchService.CURRENT_MATCH_FIELD,
           JSON.stringify(matchInfo)
         );
         this.router.navigate(["match"]);
@@ -46,12 +49,25 @@ export class MatchService {
   }
 
   getCurrentMatch(): MatchInfo {
-    const currentMatchStr = localStorage.getItem(
-      MatchService.CURRENT_PLAYER_FIELD
-    );
-    if (currentMatchStr !== null) {
-      return JSON.parse(localStorage.getItem(currentMatchStr));
-    }
-    return null;
+    return JSON.parse(localStorage.getItem(MatchService.CURRENT_MATCH_FIELD));
+  }
+
+  getMatchMapEvent(matchId: number): Observable<MatchMap> {
+    return Observable.create(observer => {
+      const eventSource = new EventSource(`/api/v1/match/${matchId}/map`);
+
+      eventSource.onmessage = event => {
+        this.zone.run(() => {
+          observer.next(JSON.parse(event.data));
+        });
+      };
+
+      eventSource.onerror = error => {
+        this.zone.run(() => {
+          observer.error(error);
+          console.log(error);
+        });
+      };
+    });
   }
 }

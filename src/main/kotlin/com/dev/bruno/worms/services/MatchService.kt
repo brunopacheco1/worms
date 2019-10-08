@@ -18,19 +18,20 @@ import javax.inject.Inject
 
 @ApplicationScoped
 class MatchService @Inject constructor(
-        val playerRepository: PlayerRepository,
-        val matchRepository: MatchRepository,
-        val matchPlayerRepository: MatchPlayerRepository,
-        val matchEvaluationService: MatchEvaluationService
+    val playerRepository: PlayerRepository,
+    val matchRepository: MatchRepository,
+    val matchPlayerRepository: MatchPlayerRepository,
+    val matchEvaluationService: MatchEvaluationService
 ) {
 
     fun addMatch(newMatch: NewMatch): MatchInfo {
         return matchRepository.save(newMatch.asMatch()).asMatchInfo()
     }
 
-
-    fun addPlayerIntoMatch(matchId: Long,
-                           newMatchPlayer: NewMatchPlayer): MatchInfo {
+    fun addPlayerIntoMatch(
+        matchId: Long,
+        newMatchPlayer: NewMatchPlayer
+    ): MatchInfo {
         val match = getMatch(matchId)
         return addPlayerIntoMatch(newMatchPlayer, match)
     }
@@ -49,15 +50,17 @@ class MatchService @Inject constructor(
                 OpponentBody.SOLID,
                 Difficulty.MEDIUM,
                 PlayMode.SURVIVAL,
-                4,
+                1,
                 100
         )
         matchRepository.save(match)
         return match
     }
 
-    private fun addPlayerIntoMatch(newMatchPlayer: NewMatchPlayer,
-                                   match: Match): MatchInfo {
+    private fun addPlayerIntoMatch(
+        newMatchPlayer: NewMatchPlayer,
+        match: Match
+    ): MatchInfo {
         if (match.players.any { it.player.id == newMatchPlayer.playerId }) {
             return match.asMatchInfo()
         }

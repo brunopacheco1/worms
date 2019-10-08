@@ -8,10 +8,7 @@ import { MatchService } from "src/app/services/match.service";
   styleUrls: ["./start-match.component.scss"]
 })
 export class StartMatchComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private matchService: MatchService
-  ) {}
+  constructor(private matchService: MatchService) {}
 
   ngOnInit() {}
 
@@ -21,9 +18,5 @@ export class StartMatchComponent implements OnInit {
 
   startMultiplayer() {
     this.matchService.startMultiplayer();
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }

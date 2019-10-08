@@ -1,4 +1,4 @@
-export interface Player {
+export interface PlayerInfo {
   id: number;
   nickname: string;
 }
