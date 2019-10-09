@@ -1,4 +1,4 @@
 export enum PlayMode {
-  SURVIVAL,
-  LONGEST_WORM
+  SURVIVAL = "SURVIVAL",
+  LONGEST_WORM = "LONGEST_WORM"
 }

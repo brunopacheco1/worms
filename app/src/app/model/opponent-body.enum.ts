@@ -1,4 +1,4 @@
 export enum OpponentBody {
-  SOLID,
-  GHOST
+  SOLID = "SOLID",
+  GHOST = "GHOST"
 }

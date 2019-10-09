@@ -1,4 +1,4 @@
 export enum Wall {
-  SOLID,
-  MIRROR
+  SOLID = "SOLID",
+  MIRROR = "MIRROR"
 }

@@ -1,5 +1,5 @@
 export enum MatchPlayerStatus {
-  PLAYING,
-  WINNER,
-  DEAD
+  PLAYING = "PLAYING",
+  WINNER = "WINNER",
+  DEAD = "DEAD"
 }

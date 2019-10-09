@@ -6,6 +6,8 @@ import { MatchInfo } from "../model/match-info.model";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { MatchMap } from "../model/ match-map.model";
+import { Direction } from "../model/direction.enum";
+import { PlayerAction } from "../model/player-action.model";
 
 @Injectable({
   providedIn: "root"
@@ -69,5 +71,35 @@ export class MatchService {
         });
       };
     });
+  }
+
+  updatePlayerDirection(key: string) {
+    let direction = null;
+    switch (key) {
+      case "ArrowUp":
+        direction = Direction.UP;
+        break;
+      case "ArrowDown":
+        direction = Direction.DOWN;
+        break;
+      case "ArrowLeft":
+        direction = Direction.LEFT;
+        break;
+      case "ArrowRight":
+        direction = Direction.RIGHT;
+        break;
+    }
+
+    console.log(direction);
+    console.log(key);
+
+    if (direction) {
+      const player = this.authService.getPlayer();
+      const match = this.getCurrentMatch();
+      const playerAction: PlayerAction = { playerId: player.id, direction };
+      this.http
+        .put(`/api/v1/match/${match.id}/rounds`, playerAction)
+        .subscribe(matchInfo => {});
+    }
   }
 }

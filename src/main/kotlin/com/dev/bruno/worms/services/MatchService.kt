@@ -51,7 +51,7 @@ class MatchService @Inject constructor(
                 Difficulty.MEDIUM,
                 PlayMode.SURVIVAL,
                 1,
-                100
+                20
         )
         matchRepository.save(match)
         return match
@@ -94,3 +94,4 @@ class MatchService @Inject constructor(
         return matchRepository.list().map { it.asMatchInfo() }
     }
 }
+

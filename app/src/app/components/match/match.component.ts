@@ -1,4 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+  HostListener
+} from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { MatchService } from "src/app/services/match.service";
 import { Subscription } from "rxjs";
@@ -8,23 +15,27 @@ import { MatchMap } from "src/app/model/ match-map.model";
 
 @Component({
   selector: "app-match",
+  host: {
+    "(document:keypress)": "handleKeyboardEvent($event)"
+  },
   templateUrl: "./match.component.html",
   styleUrls: ["./match.component.scss"]
 })
-export class MatchComponent implements OnInit {
+export class MatchComponent implements OnInit, OnDestroy {
   constructor(private matchService: MatchService) {}
 
   mapSubscription: Subscription;
 
   match: MatchInfo;
 
-  points: Map<string, MapPoint> = new Map();
+  @ViewChild("canvas", { static: true })
+  canvas: ElementRef<HTMLCanvasElement>;
 
-  occupiedPoints: MapPoint[] = [];
+  private ctx: CanvasRenderingContext2D;
 
   ngOnInit() {
+    this.ctx = this.canvas.nativeElement.getContext("2d");
     this.match = this.matchService.getCurrentMatch();
-    this.drawInitialMap();
     this.mapSubscription = this.matchService
       .getMatchMapEvent(this.match.id)
       .subscribe(map => {
@@ -32,41 +43,41 @@ export class MatchComponent implements OnInit {
       });
   }
 
-  private updateMap(map: MatchMap) {
-    this.occupiedPoints.forEach(point => {
-      point.occupied = false;
-      this.points.set(`${point.x}_${point.x}`, point);
-    });
+  ngOnDestroy() {
+    this.mapSubscription.unsubscribe();
+  }
 
-    this.occupiedPoints = [];
+  @HostListener("window:keyup", ["$event"])
+  keyEvent(event: KeyboardEvent) {
+    this.matchService.updatePlayerDirection(event.key);
+  }
+
+  private updateMap(map: MatchMap) {
+    this.clearMap();
 
     map.players.forEach(player => {
       player.position.forEach(point => {
-        point.occupied = true;
-        this.points.set(`${point.x}_${point.x}`, point);
-        this.occupiedPoints.push(point);
+        this.drawSquare(point.x, point.y, "black");
       });
     });
 
-    map.foodPosition.occupied = true;
-    this.points.set(
-      `${map.foodPosition.x}_${map.foodPosition.x}`,
-      map.foodPosition
+    this.drawSquare(map.foodPosition.x, map.foodPosition.y, "red");
+  }
+
+  private drawSquare(x: number, y: number, color: string) {
+    const canvas = this.ctx.canvas;
+    const width = canvas.width / this.match.mapSize;
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(
+      x * width,
+      (this.match.mapSize - y) * width,
+      width,
+      width
     );
-    this.occupiedPoints.push(map.foodPosition);
   }
 
-  private drawInitialMap() {
-    for (let x = 0; x < this.match.mapSize; x++) {
-      for (let y = 0; y < this.match.mapSize; y++) {
-        this.points.set(`${x}_${y}`, { x, y, occupied: false });
-      }
-    }
-  }
-
-  getPointDraw(x: number, y: number) {
-    return this.points.get(`${x}_${this.match.mapSize - y}`).occupied
-      ? "x"
-      : "0";
+  private clearMap() {
+    const canvas = this.ctx.canvas;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
