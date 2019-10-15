@@ -1,3 +1,10 @@
+<mat-toolbar>
+  <span>{{ matchPlayer?.status }}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button routerLink="/start-match">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+</mat-toolbar>
 <div class="container">
   <mat-card>
     <canvas #canvas width="600" height="600"></canvas>

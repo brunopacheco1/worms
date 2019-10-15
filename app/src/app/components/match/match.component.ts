@@ -12,6 +12,8 @@ import { Subscription } from "rxjs";
 import { MatchInfo } from "src/app/model/match-info.model";
 import { MapPoint } from "src/app/model/map-point.model";
 import { MatchMap } from "src/app/model/ match-map.model";
+import { PlayerInfo } from "src/app/model/player-info.model";
+import { MatchMapPlayer } from "src/app/model/match-map-player.model";
 
 @Component({
   selector: "app-match",
@@ -22,11 +24,16 @@ import { MatchMap } from "src/app/model/ match-map.model";
   styleUrls: ["./match.component.scss"]
 })
 export class MatchComponent implements OnInit, OnDestroy {
-  constructor(private matchService: MatchService) {}
+  constructor(
+    private authService: AuthService,
+    private matchService: MatchService
+  ) {}
 
   mapSubscription: Subscription;
 
   match: MatchInfo;
+  matchPlayer: MatchMapPlayer;
+  loggedPlayer: PlayerInfo;
 
   @ViewChild("canvas", { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
@@ -36,6 +43,7 @@ export class MatchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext("2d");
     this.match = this.matchService.getCurrentMatch();
+    this.loggedPlayer = this.authService.getPlayer();
     this.mapSubscription = this.matchService
       .getMatchMapEvent(this.match.id)
       .subscribe(map => {
@@ -53,6 +61,10 @@ export class MatchComponent implements OnInit, OnDestroy {
   }
 
   private updateMap(map: MatchMap) {
+    this.matchPlayer = map.players.find(
+      player => player.playerId === this.loggedPlayer.id
+    );
+
     this.clearMap();
 
     map.players.forEach(player => {
@@ -67,13 +79,10 @@ export class MatchComponent implements OnInit, OnDestroy {
   private drawSquare(x: number, y: number, color: string) {
     const canvas = this.ctx.canvas;
     const width = canvas.width / this.match.mapSize;
+    const fixedX = x * width;
+    const fixedY = (this.match.mapSize - y - 1) * width;
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(
-      x * width,
-      (this.match.mapSize - y) * width,
-      width,
-      width
-    );
+    this.ctx.fillRect(fixedX, fixedY, width, width);
   }
 
   private clearMap() {
