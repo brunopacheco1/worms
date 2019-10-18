@@ -6,7 +6,6 @@ import com.dev.bruno.worms.domain.PlayMode
 import com.dev.bruno.worms.domain.Wall
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
-import com.dev.bruno.worms.dto.NewRandomMatchPlayer
 import com.dev.bruno.worms.exceptions.MatchRunningException
 import com.dev.bruno.worms.helpers.toJson
 import io.netty.handler.codec.http.HttpResponseStatus
