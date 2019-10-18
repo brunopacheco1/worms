@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { MatchMap } from "../model/ match-map.model";
 import { Direction } from "../model/direction.enum";
 import { PlayerAction } from "../model/player-action.model";
+import { NewRandomMatchPlayer } from "../model/new-random-match-player.model";
 
 @Injectable({
   providedIn: "root"
@@ -36,9 +37,12 @@ export class MatchService {
       });
   }
 
-  startMultiplayer() {
+  startRandomMatch(numberOfPlayers: number) {
     const player = this.authService.getPlayer();
-    const playerMatch: NewMatchPlayer = { playerId: player.id };
+    const playerMatch: NewRandomMatchPlayer = {
+      playerId: player.id,
+      numberOfPlayers
+    };
     this.http
       .post<MatchInfo>("/api/v1/match/players", playerMatch)
       .subscribe(matchInfo => {

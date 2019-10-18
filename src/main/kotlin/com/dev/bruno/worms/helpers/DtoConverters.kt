@@ -55,3 +55,7 @@ fun RunningMatch.asMatchMap() = MatchMap(
         players.map { MatchMapPlayer(it) }.toMutableList(),
         MapPoint(0, 0)
 )
+
+fun NewRandomMatchPlayer.asNewMatchPlayer() = NewMatchPlayer(
+        playerId
+)

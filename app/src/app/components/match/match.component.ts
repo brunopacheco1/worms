@@ -51,6 +51,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     this.match = this.matchService.getCurrentMatch();
     this.loggedPlayer = this.authService.getPlayer();
     this.initializeMap();
+    this.clearMap(true);
     this.mapSubscription = this.matchService
       .getMatchMapEvent(this.match.id)
       .subscribe(map => {
@@ -85,7 +86,7 @@ export class MatchComponent implements OnInit, OnDestroy {
       player => player.playerId === this.loggedPlayer.id
     );
 
-    this.clearMap();
+    this.clearMap(false);
 
     map.players.forEach(player => {
       if (player.status !== MatchPlayerStatus.DEAD) {
@@ -106,8 +107,10 @@ export class MatchComponent implements OnInit, OnDestroy {
     this.ctx.fillRect(fixedX, fixedY, this.squareSize, this.squareSize);
   }
 
-  private clearMap() {
+  private clearMap(initialMap: boolean) {
     const canvas = this.ctx.canvas;
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
     this.ctx.fillStyle = "white";
@@ -117,6 +120,15 @@ export class MatchComponent implements OnInit, OnDestroy {
       this.wallLimit,
       this.wallLimit
     );
+    if (initialMap) {
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "10px Arial";
+      this.ctx.fillText(
+        "Waiting for players...",
+        this.widthLimit + 10,
+        this.heightLimit + 10
+      );
+    }
   }
 
   private initializeMap() {

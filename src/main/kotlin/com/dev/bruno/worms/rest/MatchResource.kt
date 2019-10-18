@@ -3,6 +3,7 @@ package com.dev.bruno.worms.rest
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.dto.NewRandomMatchPlayer
 import com.dev.bruno.worms.services.MatchService
 import javax.enterprise.context.RequestScoped
 import javax.inject.Inject
@@ -35,8 +36,8 @@ class MatchResource @Inject constructor(
     @POST
     @Path("/players")
     @Consumes(MediaType.APPLICATION_JSON)
-    fun addPlayerIntoUnknownMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
-        return matchService.addPlayerIntoUnknownMatch(newMatchPlayer)
+    fun addPlayerIntoRandomMatch(newMatchPlayer: NewRandomMatchPlayer): MatchInfo {
+        return matchService.addPlayerIntoRandomMatch(newMatchPlayer)
     }
 
     @GET
@@ -50,3 +51,4 @@ class MatchResource @Inject constructor(
         return matchService.retrieveMatch(id)
     }
 }
+

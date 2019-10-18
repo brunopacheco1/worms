@@ -4,12 +4,14 @@ import com.dev.bruno.worms.domain.*
 import com.dev.bruno.worms.dto.MatchInfo
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.dto.NewRandomMatchPlayer
 import com.dev.bruno.worms.exceptions.MatchNotFoundException
 import com.dev.bruno.worms.exceptions.MatchRunningException
 import com.dev.bruno.worms.exceptions.MaximumPlayersException
 import com.dev.bruno.worms.exceptions.PlayerNotFoundException
 import com.dev.bruno.worms.helpers.asMatch
 import com.dev.bruno.worms.helpers.asMatchInfo
+import com.dev.bruno.worms.helpers.asNewMatchPlayer
 import com.dev.bruno.worms.repositories.MatchPlayerRepository
 import com.dev.bruno.worms.repositories.MatchRepository
 import com.dev.bruno.worms.repositories.PlayerRepository
@@ -36,22 +38,22 @@ class MatchService @Inject constructor(
         return addPlayerIntoMatch(newMatchPlayer, match)
     }
 
-    fun addPlayerIntoUnknownMatch(newMatchPlayer: NewMatchPlayer): MatchInfo {
-        var notStartedMatch = matchRepository.findNotStartedMatch()
+    fun addPlayerIntoRandomMatch(newRandomMatchPlayer: NewRandomMatchPlayer): MatchInfo {
+        var notStartedMatch = matchRepository.findNotStartedMatch(newRandomMatchPlayer.numberOfPlayers)
         if (notStartedMatch == null) {
-            notStartedMatch = buildAndSaveNewMatch()
+            notStartedMatch = buildAndSaveNewMatch(newRandomMatchPlayer.numberOfPlayers)
         }
-        return addPlayerIntoMatch(newMatchPlayer, notStartedMatch)
+        return addPlayerIntoMatch(newRandomMatchPlayer.asNewMatchPlayer(), notStartedMatch)
     }
 
-    private fun buildAndSaveNewMatch(): Match {
+    private fun buildAndSaveNewMatch(numberOfPlayers: Int): Match {
         val match = Match(
                 Wall.SOLID,
                 OpponentBody.SOLID,
-                Difficulty.MEDIUM,
+                Difficulty.HARD,
                 PlayMode.SURVIVAL,
-                1,
-                20
+                numberOfPlayers,
+                30
         )
         matchRepository.save(match)
         return match

@@ -12,11 +12,15 @@ export class StartMatchComponent implements OnInit {
 
   ngOnInit() {}
 
-  startSingleplayer() {
-    this.matchService.startSingleplayer();
+  startOnePlayerMode() {
+    this.matchService.startRandomMatch(1);
   }
 
-  startMultiplayer() {
-    this.matchService.startMultiplayer();
+  startTwoPlayersMode() {
+    this.matchService.startRandomMatch(2);
+  }
+
+  startFourPlayersMode() {
+    this.matchService.startRandomMatch(4);
   }
 }
