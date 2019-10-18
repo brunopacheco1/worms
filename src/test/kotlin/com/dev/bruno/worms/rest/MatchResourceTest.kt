@@ -6,12 +6,13 @@ import com.dev.bruno.worms.domain.PlayMode
 import com.dev.bruno.worms.domain.Wall
 import com.dev.bruno.worms.dto.NewMatch
 import com.dev.bruno.worms.dto.NewMatchPlayer
+import com.dev.bruno.worms.dto.NewRandomMatchPlayer
 import com.dev.bruno.worms.exceptions.MatchRunningException
 import com.dev.bruno.worms.helpers.toJson
+import io.netty.handler.codec.http.HttpResponseStatus
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -42,7 +43,7 @@ open class MatchResourceTest {
         given().contentType(ContentType.JSON).body(newMatch.toJson())
                 .`when`().post("/api/v1/match")
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(newMatchId),
                         "wall", `is`(newMatch.wall.name),
                         "opponentBody", `is`(newMatch.opponentBody.name),
@@ -60,7 +61,7 @@ open class MatchResourceTest {
         given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
                 .`when`().put("/api/v1/match/{matchId}/players", newMatchId)
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(newMatchId),
                         "wall", `is`(newMatch.wall.name),
                         "opponentBody", `is`(newMatch.opponentBody.name),
@@ -89,7 +90,7 @@ open class MatchResourceTest {
         given()
                 .`when`().get("/api/v1/match")
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("[2].id", `is`(newMatchId),
                         "[2].wall", `is`(newMatch.wall.name),
                         "[2].opponentBody", `is`(newMatch.opponentBody.name),
@@ -106,7 +107,7 @@ open class MatchResourceTest {
         given()
                 .`when`().get("/api/v1/match/{id}", newMatchId)
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(newMatchId),
                         "wall", `is`(newMatch.wall.name),
                         "opponentBody", `is`(newMatch.opponentBody.name),
@@ -114,44 +115,6 @@ open class MatchResourceTest {
                         "playMode", `is`(newMatch.playMode.name),
                         "numberOfPlayers", `is`(newMatch.numberOfPlayers),
                         "mapSize", `is`(newMatch.mapSize),
-                        "players[0].id", `is`(newPlayerId1))
-    }
-
-    @Test
-    @Order(6)
-    fun given_new_match_player_when_post_then_return_match_info() {
-        val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
-
-        given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().post("/api/v1/match/players")
-                .then()
-                .statusCode(StatusCodes.OK)
-                .body("id", `is`(2),
-                        "wall", `is`(Wall.SOLID.name),
-                        "opponentBody", `is`(OpponentBody.SOLID.name),
-                        "difficulty", `is`(Difficulty.EASY.name),
-                        "playMode", `is`(PlayMode.SURVIVAL.name),
-                        "numberOfPlayers", `is`(1),
-                        "mapSize", `is`(30),
-                        "players[0].id", `is`(newPlayerId1))
-    }
-
-    @Test
-    @Order(7)
-    fun given_new_match_player_when_post_then_create_new_match_and_return_match_info() {
-        val newMatchPlayer = NewMatchPlayer(newPlayerId1.toLong())
-
-        given().contentType(ContentType.JSON).body(newMatchPlayer.toJson())
-                .`when`().post("/api/v1/match/players")
-                .then()
-                .statusCode(StatusCodes.OK)
-                .body("id", `is`(4),
-                        "wall", `is`(Wall.SOLID.name),
-                        "opponentBody", `is`(OpponentBody.SOLID.name),
-                        "difficulty", `is`(Difficulty.MEDIUM.name),
-                        "playMode", `is`(PlayMode.SURVIVAL.name),
-                        "numberOfPlayers", `is`(4),
-                        "mapSize", `is`(100),
                         "players[0].id", `is`(newPlayerId1))
     }
 }

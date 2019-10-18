@@ -1,8 +1,8 @@
 package com.dev.bruno.worms.exceptions
 
-import io.undertow.util.StatusCodes
+import io.netty.handler.codec.http.HttpResponseStatus
 
 class MatchRunningException : WormsException(
-        StatusCodes.FORBIDDEN,
+        HttpResponseStatus.FORBIDDEN.code(),
         "Match has started already."
 )

@@ -1,8 +1,8 @@
 package com.dev.bruno.worms.exceptions
 
-import io.undertow.util.StatusCodes
+import io.netty.handler.codec.http.HttpResponseStatus
 
 class PlayerNotFoundException : WormsException(
-        StatusCodes.NOT_FOUND,
+        HttpResponseStatus.NOT_FOUND.code(),
         "Player not found."
 )

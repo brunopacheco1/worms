@@ -2,10 +2,10 @@ package com.dev.bruno.worms.rest
 
 import com.dev.bruno.worms.dto.NewPlayer
 import com.dev.bruno.worms.helpers.toJson
+import io.netty.handler.codec.http.HttpResponseStatus
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -26,7 +26,7 @@ open class PlayerResourceTest {
         given().contentType(ContentType.JSON).body(newPlayer.toJson())
                 .`when`().post("/api/v1/player/")
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(3),
                         "nickname", `is`(newPlayer.nickname))
     }
@@ -37,7 +37,7 @@ open class PlayerResourceTest {
         given()
                 .`when`().get("/api/v1/player/{id}", existingPlayerId)
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(existingPlayerId),
                         "nickname", `is`(existingPlayerNickname))
     }
@@ -48,7 +48,7 @@ open class PlayerResourceTest {
         given().contentType(ContentType.JSON).body(newPlayer.toJson())
                 .`when`().post("/api/v1/player/")
                 .then()
-                .statusCode(StatusCodes.OK)
+                .statusCode(HttpResponseStatus.OK.code())
                 .body("id", `is`(3),
                         "nickname", `is`(newPlayer.nickname))
     }

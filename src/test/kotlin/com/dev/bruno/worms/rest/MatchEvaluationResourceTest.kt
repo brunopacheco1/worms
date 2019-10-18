@@ -5,10 +5,10 @@ import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.exceptions.MatchNotFoundException
 import com.dev.bruno.worms.exceptions.MatchNotStartedException
 import com.dev.bruno.worms.helpers.toJson
+import io.netty.handler.codec.http.HttpResponseStatus
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.undertow.util.StatusCodes
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.Test
 
@@ -25,7 +25,7 @@ open class MatchEvaluationResourceTest {
         given().contentType(ContentType.JSON).body(playerAction.toJson())
                 .`when`().put("/api/v1/match/1/rounds")
                 .then()
-                .statusCode(StatusCodes.ACCEPTED)
+                .statusCode(HttpResponseStatus.ACCEPTED.code())
     }
 
     @Test
