@@ -90,9 +90,6 @@ export class MatchService {
         break;
     }
 
-    console.log(direction);
-    console.log(key);
-
     if (direction) {
       const player = this.authService.getPlayer();
       const match = this.getCurrentMatch();

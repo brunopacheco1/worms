@@ -1,9 +1,17 @@
-<mat-toolbar color="primary">
-  <span>Worms</span>
-  <span class="spacer"></span>
-  <span>{{ player()?.nickname }}</span>
-  <button mat-icon-button *ngIf="isLogged()" (click)="logout()">
-    <mat-icon>power_settings_new</mat-icon>
-  </button>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div fxFlexFill fxLayout="column">
+  <div>
+    <mat-toolbar color="primary">
+      <span>Worms</span>
+      <span class="spacer"></span>
+      <span>{{ player()?.nickname }}</span>
+      <button mat-icon-button *ngIf="isLogged()" (click)="logout()">
+        <mat-icon>power_settings_new</mat-icon>
+      </button>
+    </mat-toolbar>
+  </div>
+  <div fxFlex="1 1 100%">
+    <main fxFlex="1 1 100%">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

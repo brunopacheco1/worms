@@ -1,12 +1,25 @@
-<mat-toolbar>
-  <span>{{ matchPlayer?.status }}</span>
-  <span class="spacer"></span>
-  <button mat-icon-button routerLink="/start-match">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-  </button>
-</mat-toolbar>
-<div class="container">
-  <mat-card>
-    <canvas #canvas width="600" height="600"></canvas>
-  </mat-card>
+<div fxFlexFill fxLayout="column">
+  <div>
+    <mat-toolbar color="accent">
+      <span
+        >Status: {{ matchPlayer?.status }} Length:
+        {{ matchPlayer?.wormLength }}</span
+      >
+      <span class="spacer"></span>
+      <button mat-icon-button routerLink="/start-match">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+    </mat-toolbar>
+  </div>
+  <div fxFlex="1 1 100%" #mapcontainer>
+    <canvas
+      #canvas
+      fxFlex="1 1 100%"
+      (panleft)="onPanLeft($event)"
+      (panright)="onPanRight($event)"
+      (panup)="onPanUp($event)"
+      (pandown)="onPanDown($event)"
+      >></canvas
+    >
+  </div>
 </div>
