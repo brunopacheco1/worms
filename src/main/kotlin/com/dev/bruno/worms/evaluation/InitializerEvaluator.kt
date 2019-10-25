@@ -3,7 +3,9 @@ package com.dev.bruno.worms.evaluation
 import com.dev.bruno.worms.domain.Direction
 import com.dev.bruno.worms.dto.MapPoint
 import com.dev.bruno.worms.dto.MatchMap
+import com.dev.bruno.worms.dto.PlayerAction
 import com.dev.bruno.worms.dto.RunningMatch
+import com.dev.bruno.worms.services.MatchPool
 
 class InitializerEvaluator : Evaluator() {
 
@@ -22,6 +24,8 @@ class InitializerEvaluator : Evaluator() {
                         player.direction = calculateInitialDirection(
                                 index, runningMatch.players.size
                         )
+                        MatchPool.addAction(PlayerAction(player.playerId, player.direction))
+
                         player.position = calculateInitialPosition(
                                 player.direction, runningMatch.mapSize
                         )

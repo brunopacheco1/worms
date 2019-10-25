@@ -11,10 +11,9 @@
       </button>
     </mat-toolbar>
   </div>
-  <div fxFlex="1 1 100%" #mapcontainer>
+  <div fxFlex="1 1 100%" fxFlexFill fxLayout="column" #canvascontainer>
     <canvas
       #canvas
-      fxFlex="1 1 100%"
       (panleft)="onPanLeft($event)"
       (panright)="onPanRight($event)"
       (panup)="onPanUp($event)"

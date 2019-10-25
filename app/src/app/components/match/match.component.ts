@@ -37,6 +37,9 @@ export class MatchComponent implements OnInit, OnDestroy {
   matchPlayer: MatchMapPlayer;
   loggedPlayer: PlayerInfo;
 
+  @ViewChild("canvascontainer", { static: true })
+  canvasContainer: ElementRef<HTMLCanvasElement>;
+
   @ViewChild("canvas", { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
 
@@ -47,6 +50,9 @@ export class MatchComponent implements OnInit, OnDestroy {
   private ctx: CanvasRenderingContext2D;
 
   ngOnInit() {
+    this.canvas.nativeElement.height =
+      this.canvasContainer.nativeElement.offsetHeight - 64;
+    this.canvas.nativeElement.width = this.canvasContainer.nativeElement.offsetWidth;
     this.ctx = this.canvas.nativeElement.getContext("2d");
     this.match = this.matchService.getCurrentMatch();
     this.loggedPlayer = this.authService.getPlayer();
