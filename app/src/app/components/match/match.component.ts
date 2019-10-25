@@ -95,9 +95,13 @@ export class MatchComponent implements OnInit, OnDestroy {
     this.clearMap(false);
 
     map.players.forEach(player => {
+      let color = "yellow";
+      if (player.playerId === this.loggedPlayer.id) {
+        color = "purple";
+      }
       if (player.status !== MatchPlayerStatus.DEAD) {
         player.position.forEach(point => {
-          this.drawSquare(point.x, point.y, "black");
+          this.drawSquare(point.x, point.y, color);
         });
       }
     });
