@@ -3,10 +3,12 @@ dist: trusty
 cache:
   directories:
     - $HOME/.m2
+    - app/node_modules
 services:
   - docker
 script:
   - cd app
+  - npm install
   - npm run build
   - cd ..
   - mvn clean package -Dquarkus.profile=prod
