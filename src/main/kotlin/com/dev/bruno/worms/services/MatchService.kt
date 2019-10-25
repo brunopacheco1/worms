@@ -51,7 +51,7 @@ class MatchService @Inject constructor(
                 Wall.SOLID,
                 OpponentBody.SOLID,
                 Difficulty.HARD,
-                PlayMode.SURVIVAL,
+                PlayMode.LONGEST_WORM,
                 numberOfPlayers,
                 30
         )
@@ -96,4 +96,3 @@ class MatchService @Inject constructor(
         return matchRepository.list().map { it.asMatchInfo() }
     }
 }
-

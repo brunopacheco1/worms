@@ -17,18 +17,17 @@ import com.dev.bruno.worms.repositories.MatchRepository
 import io.quarkus.vertx.ConsumeEvent
 import io.vertx.axle.core.Vertx
 import io.vertx.core.eventbus.Message
-import org.reactivestreams.Publisher
 import java.util.function.Consumer
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import javax.transaction.Transactional
-
+import org.reactivestreams.Publisher
 
 @ApplicationScoped
 class MatchEvaluationService @Inject constructor(
-        val matchRepository: MatchRepository,
-        val matchPlayerRepository: MatchPlayerRepository,
-        val vertx: Vertx
+    val matchRepository: MatchRepository,
+    val matchPlayerRepository: MatchPlayerRepository,
+    val vertx: Vertx
 ) {
 
     fun addAction(matchId: Long, playerAction: PlayerAction) {
@@ -73,7 +72,6 @@ class MatchEvaluationService @Inject constructor(
             val evaluator = MatchEvaluatorFactory.getEvaluator(match)
             val currentMap = evaluator.evaluate(match)
             MatchPool.setLastMap(currentMap)
-            println(currentMap.toJson())
             vertx.eventBus().publish("match-${match.id}", currentMap.toJson())
             if (currentMap.status == MatchStatus.FINISHED) {
                 vertx.eventBus().send<String>("finishing-match", match.toJson())
