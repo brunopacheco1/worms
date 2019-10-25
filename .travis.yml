@@ -6,6 +6,9 @@ cache:
 services:
   - docker
 script:
+  - cd app
+  - npm run build
+  - cd ..
   - mvn clean package -Dquarkus.profile=prod
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker build -f src/main/docker/Dockerfile.jvm -t "$DOCKER_USERNAME/worms:jvm" .;
