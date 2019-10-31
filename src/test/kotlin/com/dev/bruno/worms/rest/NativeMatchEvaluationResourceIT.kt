@@ -1,6 +1,6 @@
 package com.dev.bruno.worms.rest
 
-import io.quarkus.test.junit.SubstrateTest
+import io.quarkus.test.junit.NativeImageTest
 
-@SubstrateTest
+@NativeImageTest
 open class NativeMatchEvaluationResourceIT : MatchEvaluationResourceTest()
