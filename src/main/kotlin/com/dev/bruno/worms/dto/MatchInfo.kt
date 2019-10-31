@@ -4,7 +4,7 @@ import com.dev.bruno.worms.domain.*
 
 @Dto
 data class MatchInfo(
-        var id: Long?,
+        var id: Long,
         var status: MatchStatus,
         var wall: Wall,
         var opponentBody: OpponentBody,

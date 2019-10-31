@@ -8,10 +8,10 @@ import com.dev.bruno.worms.dto.MatchMap
 
 fun NewPlayer.asPlayer() = Player(nickname)
 
-fun Player.asPlayerInfo() = PlayerInfo(id, nickname)
+fun Player.asPlayerInfo() = PlayerInfo(id!!, nickname)
 
 fun MatchPlayer.asMatchPlayerInfo() = MatchPlayerInfo(
-        player.id,
+        player.id!!,
         player.nickname,
         status,
         wormLength
@@ -27,7 +27,7 @@ fun NewMatch.asMatch() = Match(
 )
 
 fun Match.asMatchInfo() = MatchInfo(
-        id,
+        id!!,
         status,
         wall,
         opponentBody,
