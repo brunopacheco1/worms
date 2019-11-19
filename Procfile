@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/worms-1.0-SNAPSHOT-runner.jar
+web: java $JAVA_OPTS -Dquarkus.http.port=$PORT -jar target/worms-1.0-SNAPSHOT-runner.jar
