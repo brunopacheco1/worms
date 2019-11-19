@@ -7,4 +7,3 @@ target
 .project
 .vscode
 ObjectStore
-src/main/resources/META-INF/resources/*
