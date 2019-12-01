@@ -7,3 +7,4 @@ target
 .project
 .vscode
 ObjectStore
+node_modules
